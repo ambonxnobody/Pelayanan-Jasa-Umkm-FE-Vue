@@ -57,7 +57,7 @@ export default {
       selectedNamaElektronik: null,
       namaElektronikOptions: [],
       detailMasalah: '',
-      teknisi: '1',
+      teknisi: '2',
       tglServis: '',
       harga: null,
     };
