@@ -27,10 +27,6 @@
                   placeholder="Tanggal Servis" />
               </div>
               <div class="mb-3">
-                <input hidden v-model="harga" class="form-control form-control-lg" name="harga" placeholder="Harga"
-                  readonly />
-              </div>
-              <div class="mb-3">
                 <button type="submit" class="btn btn-success"> Pesan </button>
               </div>
             </form>
@@ -48,6 +44,9 @@ export default {
   name: "PesanServis",
 
   mounted() {
+    const userData = JSON.parse(localStorage.getItem('user'));
+    const userID = userData.data.id;
+    this.id_pelanggan = userID;
     feather.replace();
     this.getNamaElektronikOptions();
   },
@@ -57,13 +56,14 @@ export default {
       selectedNamaElektronik: null,
       namaElektronikOptions: [],
       detailMasalah: '',
-      teknisi: '1',
+      teknisi: '2',
       tglServis: '',
-      harga: null,
+      id_pelanggan: ''
     };
   },
 
   methods: {
+
     async getNamaElektronikOptions() {
       try {
         const response = await axios.get('http://localhost:8000/api/nama-elektronik');
@@ -82,7 +82,7 @@ export default {
           masalah: this.detailMasalah,
           teknisi: this.teknisi,
           tgl_pesan: this.tglServis,
-          harga: this.hargaElektronik,
+          id_pelanggan: this.id_pelanggan
         });
 
         if (response && response.data && response.data.error) {
@@ -96,7 +96,7 @@ export default {
           this.detailMasalah = '';
           this.teknisi = '';
           this.tglServis = '';
-          this.harga = null;
+          // this.harga = null;
           this.$router.replace({ path: '/pesan-servis-pembeli' });
         }
 
@@ -106,18 +106,18 @@ export default {
     },
   },
 
-  computed: {
-    hargaElektronik() {
-      const selectedOption = this.namaElektronikOptions.find(option => option.id === this.selectedNamaElektronik);
-      return selectedOption ? selectedOption.harga : null;
-    },
-  },
+  // computed: {
+  //   hargaElektronik() {
+  //     const selectedOption = this.namaElektronikOptions.find(option => option.id === this.selectedNamaElektronik);
+  //     return selectedOption ? selectedOption.harga : null;
+  //   },
+  // },
 
-  watch: {
-    selectedNamaElektronik(newVal, oldVal) {
-      this.harga = this.hargaElektronik;
-    },
-  },
+  // watch: {
+  //   selectedNamaElektronik(newVal, oldVal) {
+  //     this.harga = this.hargaElektronik;
+  //   },
+  // },
 };
 
 </script>
