@@ -48,6 +48,18 @@ const routes = [{
     },
   },
   {
+    path: '/layanan-admin-add-teknisi',
+    name: 'layanan-admin-add-teknisi',
+    component: () => import('@/views/pages/Layanan/LayananAdminAddTeknisi.vue'),
+    meta: {
+      title: 'Layanan Tambah Teknisi',
+      requiresAuth: true,
+      meta: {
+        requiresAuth: true
+      },
+    },
+  },
+  {
     path: '/dashboard-teknisi',
     name: 'dashboard-teknisi',
     component: () => import('@/views/pages/Dashboard/DashboardTeknisi.vue'),
