@@ -38,9 +38,21 @@ const routes = [{
   {
     path: '/layanan-admin',
     name: 'layanan-admin',
-    component: () => import('@/views/pages/Dashboard/DashboardPemilik.vue'),
+    component: () => import('@/views/pages/Layanan/CRUD-Layanan/TampilLayananPemilik.vue'),
     meta: {
       title: 'Layanan Admin',
+      requiresAuth: true,
+      meta: {
+        requiresAuth: true
+      },
+    },
+  },
+  {
+    path: '/Tambah-layanan',
+    name: 'Tambah-layanan',
+    component: () => import('@/views/pages/Layanan/CRUD-Layanan/TambahLayananPemilik.vue'),
+    meta: {
+      title: 'Tambah Layanan',
       requiresAuth: true,
       meta: {
         requiresAuth: true
