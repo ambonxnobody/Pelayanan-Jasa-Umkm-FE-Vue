@@ -4,7 +4,7 @@
       <router-link to="/dashboard" class="sidebar-brand">
         <span class="align-middle">Faiz Teknik Blitar</span>
       </router-link>
-
+      
       <ul class="sidebar-nav">
         <li class="sidebar-header" v-if="userRole === 'Admin'">Pages Admin</li>
         <li class="sidebar-item" v-if="userRole === 'Admin'">
@@ -25,7 +25,12 @@
             <span class="align-middle">Layanan Admin</span>
           </router-link>
         </li>
-
+        <li class="sidebar-item" v-if="userRole === 'Admin'">
+          <router-link to="/layanan-admin-add-teknisi" class="sidebar-link">
+            <i class="align-middle" data-feather="sliders"></i>
+            <span class="align-middle">Tambah User</span>
+          </router-link>
+        </li>
         <li class="sidebar-header" v-if="userRole === 'Teknisi'">
           Pages Teknisi
         </li>

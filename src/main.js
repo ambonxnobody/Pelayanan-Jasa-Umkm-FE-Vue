@@ -3,9 +3,14 @@ import {
 } from 'vue'
 import App from './App.vue'
 import router from './router'
-import authMixin from './store/index';
+import {
+    authMixin
+} from './store/index';
 import store from './store/store';
 import axios from 'axios';
+
+
+
 
 createApp(App)
     .use(store)
