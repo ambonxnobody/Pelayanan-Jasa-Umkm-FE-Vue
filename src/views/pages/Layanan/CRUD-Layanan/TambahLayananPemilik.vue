@@ -81,7 +81,7 @@ export default {
          
           nama_layanan: this.namaLayanan,
           deskripsi: this.Deskripsi,
-          teknisi: selectedOption.teknisi,
+          teknisi: selectedOption.id,
         
         });
 

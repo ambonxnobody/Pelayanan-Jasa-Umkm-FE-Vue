@@ -38,7 +38,7 @@ const routes = [{
   {
     path: '/layanan-admin',
     name: 'layanan-admin',
-    component: () => import('@/views/pages/Layanan/CRUD-Layanan/TampilLayananPemilik.vue'),
+    component: () => import('@/views/pages/Layanan/TampilLayananPemilik.vue'),
     meta: {
       title: 'Layanan Admin',
       requiresAuth: true,
@@ -59,18 +59,7 @@ const routes = [{
       },
     },
   },
-  {
-    path: '/Edit-Layanan/:id',
-    name: 'Edit-Layanan',
-    component: () => import('@/views/pages/Layanan/CRUD-Layanan/EditLayananPemilik.vue'),
-    meta: {
-      title: 'Layanan Admin',
-      requiresAuth: true,
-      meta: {
-        requiresAuth: true
-      },
-    },
-  },
+  
   {
     path: '/layanan-admin-add-teknisi',
     name: 'layanan-admin-add-teknisi',
