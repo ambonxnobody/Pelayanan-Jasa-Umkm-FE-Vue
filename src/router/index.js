@@ -60,6 +60,18 @@ const routes = [{
     },
   },
   {
+    path: '/Edit-Layanan/:id',
+    name: 'Edit-Layanan',
+    component: () => import('@/views/pages/Layanan/CRUD-Layanan/EditLayananPemilik.vue'),
+    meta: {
+      title: 'Layanan Admin',
+      requiresAuth: true,
+      meta: {
+        requiresAuth: true
+      },
+    },
+  },
+  {
     path: '/layanan-admin-add-teknisi',
     name: 'layanan-admin-add-teknisi',
     component: () => import('@/views/pages/Layanan/LayananAdminAddTeknisi.vue'),

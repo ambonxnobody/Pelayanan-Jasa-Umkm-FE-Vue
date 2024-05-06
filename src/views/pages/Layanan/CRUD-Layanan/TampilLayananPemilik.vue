@@ -34,7 +34,7 @@
                 <td>{{ data.gambar }}</td>
                 <td>{{ data.teknisi }}</td>
                 <td>
-                  <router-link to="/Tambah-Layanan" class="btn btn-warning">
+                  <router-link to ="/Edit-Layanan/2" class="btn btn-warning">
                       Edit
                   </router-link>
                   &nbsp;

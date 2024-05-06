@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid p-0">
-      <h1 class="h3 mb-3"><strong>Tambah Data Layanan</strong></h1>
+      <h1 class="h3 mb-3"><strong>Edit Data Layanan</strong></h1>
   
       <div class="row">
         <div class="col-12">
@@ -19,8 +19,12 @@
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Nama Teknisi</label>
-                  <input v-model="namaTeknisi" class="form-control" name="nama_teknisi" id="nama_teknisi"
-                    cols="30" rows="10"/>
+                  <select v-model="selectnamaTeknisi" class="form-select">
+                  <option :value="null" disabled selected>Pilih Teknisi</option>
+                  <option v-for="option in namaTeknisi" :key="option.id" :value="option.id">
+                    {{ option.username }}
+                  </option>
+                </select>
                 </div>
                 <!-- <div class="mb-3">
                   <label class="form-label"></label>
@@ -42,7 +46,7 @@
 
 import axios from 'axios';
 export default {
-  name: "TambahLayanan",
+  name: "EditLayanan",
 //   mounted() {
 //       this.tambah();
 //       feather.replace();
