@@ -48,6 +48,30 @@ const routes = [{
     },
   },
   {
+    path: '/Tambah-Layanan',
+    name: 'Tambah-Layanan',
+    component: () => import('@/views/pages/Layanan/CRUD-Layanan/TambahLayananPemilik.vue'),
+    meta: {
+      title: 'Layanan Admin',
+      requiresAuth: true,
+      meta: {
+        requiresAuth: true
+      },
+    },
+  },
+  {
+    path: '/layanan-admin-add-teknisi',
+    name: 'layanan-admin-add-teknisi',
+    component: () => import('@/views/pages/Layanan/LayananAdminAddTeknisi.vue'),
+    meta: {
+      title: 'Tambah Teknisi',
+      requiresAuth: true,
+      meta: {
+        requiresAuth: true
+      },
+    },
+  },
+  {
     path: '/dashboard-teknisi',
     name: 'dashboard-teknisi',
     component: () => import('@/views/pages/Dashboard/DashboardTeknisi.vue'),

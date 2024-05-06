@@ -19,8 +19,12 @@
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Nama Teknisi</label>
-                  <input v-model="namaTeknisi" class="form-control" name="nama_teknisi" id="nama_teknisi"
-                    cols="30" rows="10"/>
+                  <select v-model="selectnamaTeknisi" class="form-select">
+                  <option :value="null" disabled selected>Pilih Teknisi</option>
+                  <option v-for="option in namaTeknisi" :key="option.id" :value="option.id">
+                    {{ option.username }}
+                  </option>
+                </select>
                 </div>
                 <!-- <div class="mb-3">
                   <label class="form-label"></label>
@@ -39,34 +43,45 @@
   </template>
 
 <script>
-
+import feather from "feather-icons";
 import axios from 'axios';
 export default {
   name: "TambahLayanan",
-//   mounted() {
-//       this.tambah();
-//       feather.replace();
-//     },
+  mounted() {    
+      this.getUserTek();
+      feather.replace();
+      
+    },
 
   data() {
     return {
+      selectnamaTeknisi: null,
         namaLayanan:'',
         Deskripsi: '',
-        namaTeknisi: '',
+        namaTeknisi: [],
     };
   },
 
   methods: {
 
+    async getUserTek() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/get-usertek');
+        this.namaTeknisi = response.data;
+
+      } catch (error) {
+        console.error(error);
+      }
+    },
 
     async tambah() {
       try {
-       
+        const selectedOption = this.namaTeknisi.find(option => option.id === this.selectnamaTeknisi);
         const response = await axios.post('http://localhost:8000/api/tambah-layanan', {
          
-            nama_layanan: this.namaLayanan,
+          nama_layanan: this.namaLayanan,
           deskripsi: this.Deskripsi,
-          nama_teknisi: this.namaTeknisi,
+          teknisi: selectedOption.teknisi,
         
         });
 
@@ -77,10 +92,9 @@ export default {
           const savedDataMessage = `Pesanan berhasil disimpan`;
           alert(savedDataMessage);
           console.log(response.data);
-         
           this.namaLayanan = '';
           this.Deskripsi = '';
-          this.namaTeknisi = '';
+          this.selectnamaTeknisi = null;
           // this.harga = null;
           this.$router.replace({ path: '/layanan-admin' });
         }
