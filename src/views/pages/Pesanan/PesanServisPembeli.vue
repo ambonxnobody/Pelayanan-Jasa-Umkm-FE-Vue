@@ -27,7 +27,7 @@
                   placeholder="Tanggal Servis" />
               </div>
               <div class="mb-3">
-                <button type="submit" class="btn btn-success"> Pesan </button>
+                <button type="submit" class="btn btn-success">Pesan</button>
               </div>
             </form>
           </div>
@@ -49,6 +49,13 @@ export default {
     this.id_pelanggan = userID;
     feather.replace();
     this.getNamaElektronikOptions();
+
+    const today = new Date();
+    const offset = 7 * 60 * 60 * 1000;
+    const localTime = today.getTime();
+    const gmtPlus7Time = new Date(localTime + offset);
+    const formattedDate = gmtPlus7Time.toISOString().split('T')[0];
+    this.tglServis = formattedDate;
   },
 
   data() {
@@ -56,7 +63,6 @@ export default {
       selectedNamaElektronik: null,
       namaElektronikOptions: [],
       detailMasalah: '',
-      teknisi: '2',
       tglServis: '',
       id_pelanggan: ''
     };
@@ -80,7 +86,6 @@ export default {
         const response = await axios.post('http://localhost:8000/api/submit-pesanan', {
           layanan: selectedOption.layanan,
           masalah: this.detailMasalah,
-          teknisi: this.teknisi,
           tgl_pesan: this.tglServis,
           id_pelanggan: this.id_pelanggan
         });
@@ -94,9 +99,7 @@ export default {
           console.log(response.data);
           this.selectedNamaElektronik = null;
           this.detailMasalah = '';
-          this.teknisi = '';
           this.tglServis = '';
-          // this.harga = null;
           this.$router.replace({ path: '/pesan-servis-pembeli' });
         }
 

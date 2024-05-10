@@ -31,6 +31,8 @@ export default {
       const isLoggedIn = localStorage.getItem('isLoggedIn');
       const userRole = localStorage.getItem('userRole');
 
+      console.log('data user :', userRole);
+
       if (accessToken && isLoggedIn && userRole) {
         this.$store.commit('setAuthentication', { isLoggedIn: true, accessToken, role: userRole });
       } else {

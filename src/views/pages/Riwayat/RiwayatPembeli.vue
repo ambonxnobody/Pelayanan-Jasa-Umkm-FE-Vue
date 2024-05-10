@@ -12,8 +12,9 @@
                   <th>No</th>
                   <th>Nama Elektronik</th>
                   <th>Masalah</th>
+                  <th>Teknisi</th>
                   <th>Tanggal</th>
-                  <th>Harga</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -21,8 +22,14 @@
                   <td>{{ index + 1 }}</td>
                   <td>{{ pesanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
-                  <td>{{ pesanan.tgl_pesan }}</td>
-                  <td>RP. {{ pesanan.harga }}</td>
+                  <td>{{ pesanan.id_teknisi }}</td>
+                  <td>{{ pesanan.tgl_pesan_awal }}</td>
+                  <td>
+                    <span v-if="pesanan.status === 0">Menunggu Konfirmasi</span>
+                    <span v-else-if="pesanan.status === 1">Proses Pesanan</span>
+                    <span v-else-if="pesanan.status === 2">Pesanan Anda Ditolak</span>
+                    <span v-else-if="pesanan.status === 3">Pesanan Selesai</span>
+                  </td>
                 </tr>
               </tbody>
             </table>

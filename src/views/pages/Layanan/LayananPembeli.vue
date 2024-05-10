@@ -14,7 +14,6 @@
               <!-- <p class="card-text">
                 Servis {{ layanan.deskripsi }}
               </p> -->
-              <p class="card-text">Harga: {{ layanan.harga }}</p>
             </div>
           </div>
         </div>

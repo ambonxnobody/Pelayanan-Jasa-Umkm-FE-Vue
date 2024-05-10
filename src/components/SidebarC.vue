@@ -66,29 +66,29 @@
             <span class="align-middle">Layanan Pemilik</span>
           </router-link>
         </li> -->
-        <li class="sidebar-header" v-if="userRole === 'Pembeli'">Pages Pembeli</li>
-        <li class="sidebar-item" v-if="userRole === 'Pembeli'">
+        <li class="sidebar-header" v-if="userRole === 'Pelanggan'">Pages Pelanggan</li>
+        <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
           <router-link to="/dashboard-pembeli" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Dashboard Pembeli</span>
+            <span class="align-middle">Dashboard pelanggan</span>
           </router-link>
         </li>
-        <li class="sidebar-item" v-if="userRole === 'Pembeli'">
+        <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
           <router-link to="pesan-servis-pembeli" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Pesanan Pembeli</span>
+            <span class="align-middle">Pesanan Pelanggan</span>
           </router-link>
         </li>
-        <li class="sidebar-item" v-if="userRole === 'Pembeli'">
+        <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
           <router-link to="layanan-pembeli" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Layanan Pembeli</span>
+            <span class="align-middle">Layanan Pelanggan</span>
           </router-link>
         </li>
-        <li class="sidebar-item" v-if="userRole === 'Pembeli'">
+        <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
           <router-link to="riwayat-pembeli" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Riwayat Pembeli</span>
+            <span class="align-middle">Riwayat Pelanggan</span>
           </router-link>
         </li>
       </ul>
@@ -113,13 +113,13 @@ export default {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const userData = JSON.parse(localStorage.getItem('user'));
-      console.log(userData.data);
+      console.log('data user :',userData.data);
       this.userRole = userData.data.name; // Mengambil nilai role dari data pengguna
       if (this.userRole === 'admin') {
 
       } else if (this.userRole === 'teknisi') {
 
-      } else if (this.userRole === 'pembeli') {
+      } else if (this.userRole === 'pelanggan') {
 
       }
     } else {

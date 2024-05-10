@@ -26,7 +26,7 @@ const routes = [{
   {
     path: '/pesanan-admin',
     name: 'pesanan-admin',
-    component: () => import('@/views/pages/Pesanan/PesananPemilik.vue'),
+    component: () => import('@/views/pages/Pesanan/PesananAdmin.vue'),
     meta: {
       title: 'Pesanan Admin',
       requiresAuth: true,
