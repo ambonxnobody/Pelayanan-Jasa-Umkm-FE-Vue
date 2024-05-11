@@ -140,7 +140,14 @@ const routes = [{
       title: 'Login'
     }
   },
-
+  {
+  path: '/registrasi',
+    name: 'registrasi',
+    component: () => import('@/views/pages/Registrasi.vue'),
+    meta: {
+      title: 'registrasi'
+    }
+  }
 ];
 
 const router = createRouter({

@@ -13,6 +13,7 @@
               <div class="card-body">
                 <div class="m-sm-4">
                   <form @submit.prevent="login">
+                   
                     <div class="mb-3">
                       <label for="username" class="form-label">Username:</label>
                       <input type="text" id="username" v-model="username" class="form-control form-control-lg"
@@ -23,6 +24,7 @@
                       <input type="password" id="password" v-model="password" class="form-control form-control-lg"
                         required />
                       <small><a href="#">Forgot password?</a></small>
+                      <small style="float: right;"><a href="/registrasi">registrasi</a></small>
                     </div>
                     <div class="text-center mt-3">
                       <button type="submit" class="btn btn-lg btn-primary">
