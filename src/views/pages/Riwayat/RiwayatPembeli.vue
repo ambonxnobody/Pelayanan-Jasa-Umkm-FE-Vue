@@ -14,7 +14,10 @@
                   <th>Masalah</th>
                   <th>Teknisi</th>
                   <th>Tanggal</th>
+                  <th>Tanggal Selesai</th>
                   <th>Status</th>
+                  <th>Deskripsi</th>
+                  <th>Total Biaya</th>
                 </tr>
               </thead>
               <tbody>
@@ -22,13 +25,29 @@
                   <td>{{ index + 1 }}</td>
                   <td>{{ pesanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
-                  <td>{{ pesanan.id_teknisi }}</td>
-                  <td>{{ pesanan.tgl_pesan_awal }}</td>
+                  <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>
+                  <template v-if="pesanan.tgl_pesan_awal">
+                    <td>{{ formatDate(pesanan.tgl_pesan_awal) }}</td>
+                  </template>
+                  <template v-else>
+                    <td class="text-danger">Data kosong</td>
+                  </template>
+                  <template v-if="pesanan.tgl_pesan_selesai">
+                    <td>{{ formatDate(pesanan.tgl_pesan_selesai) }}</td>
+                  </template>
+                  <template v-else>
+                    <td class="text-danger">Data kosong</td>
+                  </template>
                   <td>
-                    <span v-if="pesanan.status === 0">Menunggu Konfirmasi</span>
-                    <span v-else-if="pesanan.status === 1">Proses Pesanan</span>
-                    <span v-else-if="pesanan.status === 2">Pesanan Anda Ditolak</span>
-                    <span v-else-if="pesanan.status === 3">Pesanan Selesai</span>
+                    <span v-if="pesanan.status === 0" class="text-info">Menunggu Konfirmasi</span>
+                    <span v-else-if="pesanan.status === 1" class="text-warning">Proses Pesanan</span>
+                    <span v-else-if="pesanan.status === 2" class="text-warning">Proses Pengerjaan</span>
+                    <span v-else-if="pesanan.status === 3" class="text-success">Pesanan Selesai</span>
+                    <span v-else-if="pesanan.status === 4" class="text-danger">Pesanan Dibatalkan</span>
+                  </td>
+                  <td :class="{ 'text-danger': !pesanan.deskripsi }">{{ pesanan.deskripsi || 'Data kosong' }}</td>
+                  <td :class="{ 'text-danger': !pesanan.harga_jasa || !pesanan.harga_alat }">
+                    {{ calculateTotal(pesanan.harga_jasa, pesanan.harga_alat) || 'Pesanan kosong' }}
                   </td>
                 </tr>
               </tbody>
@@ -63,11 +82,30 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/riwayat-pesanan');
         this.riwayatPesanan = response.data;
+        console.log('cek', this.riwayatPesanan);
       } catch (error) {
         console.error(error);
       }
-    }
-  }
+    },
+
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const formattedDate = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+
+      return formattedDate;
+    },
+
+    calculateTotal(hargaJasa, hargaAlat) {
+      if (!hargaJasa || !hargaAlat) {
+        return 'Data kosong';
+      }
+      const total = parseFloat(hargaJasa) + parseFloat(hargaAlat);
+      return total;
+    },
+  },
 };
 
 </script>

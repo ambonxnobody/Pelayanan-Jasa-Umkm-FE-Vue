@@ -3,7 +3,7 @@
     <h1 class="h3 mb-3 text-center"><strong>Pesanan Teknisi</strong></h1>
 
     <div>
-    
+
       <BaseModal v-if="showModal" ref="baseModal" @close="showModal = false">
         <template v-slot:header>
           <h2 class="modal-title">Form Data</h2>
@@ -15,43 +15,42 @@
               <form @submit.prevent="edit">
                 <div class="mb-3">
                   <label class="form-label">Nama Pelanggan</label>
-                  <input v-model="namapelanggan" class="form-control" name="namapelanggan"  cols="30"
-                    rows="10" readonly />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Nama Admin</label>
-                  <input v-model="namaadmin" class="form-control" name="namaadmin"  cols="30"
-                    rows="10" readonly/>
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Nama Teknisi</label>
-                  <input v-model="namateknisi" class="form-control" name="namateknisi"  cols="30"
-                    rows="10" readonly/>
+                  <input v-model="namapelanggan" class="form-control" name="namapelanggan" cols="30" rows="10"
+                    readonly />
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Layanan</label>
-                  <input v-model="layanan" class="form-control" name="layanan"  cols="30"
-                    rows="10" readonly/>
+                  <input v-model="layanan" class="form-control" name="layanan" cols="30" rows="10" readonly />
                 </div>
                 <div class="mb-3">
                   <label class="form-label">masalah</label>
-                  <textarea v-model="masalah" class="form-control" name="masalah"  cols="30"
-                    rows="10" readonly></textarea>
+                  <textarea v-model="masalah" class="form-control" name="masalah" cols="30" rows="10"
+                    readonly></textarea>
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Harga Jasa</label>
-                  <input v-model="hargajasa" class="form-control" name="hargajasa"  cols="30"
-                    rows="10"/>
+                  <input v-model="hargajasa" class="form-control" name="hargajasa" cols="30" rows="10" />
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Harga Alat</label>
-                  <input v-model="hargaalat" class="form-control" name="hargaalat"  cols="30"
-                    rows="10"/>
+                  <input v-model="hargaalat" class="form-control" name="hargaalat" cols="30" rows="10" />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Tanggal Servis Selesai</label>
+                  <input v-model="tglServis" class="form-control form-control-lg" type="date" name="tgl_servis_selesai"
+                    placeholder="Tanggal Servis Selesai" />
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Deskripsi</label>
+                  <textarea v-model="deskripsi" class="form-control" name="deskripsi" cols="30" rows="10"></textarea>
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Status</label>
-                  <input v-model="status" class="form-control" name="status" cols="30"
-                    rows="10"/>
+                  <select v-model="status" class="form-select" id="basic-usage" data-placeholder="Choose one thing">
+                    <option value="" disabled selected>Pilih Role</option>
+                    <option v-for="option in statusOption" :key="option.value" :value="option.value">
+                      {{ option.label }}</option>
+                  </select>
                 </div>
               </form>
             </div>
@@ -62,48 +61,72 @@
         </template>
       </BaseModal>
     </div>
-
     <div class="row">
       <div class="col-12">
         <div class="card">
           <div class="card-body">
-            <table
-              class="table table-striped table-bordered nowrap table-hover"
-              id="example"
-            >
+            <table class="table table-striped table-bordered nowrap table-hover" id="example">
               <thead class="text-center">
                 <tr>
                   <th>No</th>
                   <th>Nama Pelanggan</th>
-                  <th>Nama Admin</th>
-                  <th>Nama Teknisi</th>
                   <th>Layanan</th>
                   <th>Masalah</th>
+                  <th>Tanggal Pesan</th>
+                  <th>Tanggal Selesai</th>
                   <th>Harga Jasa</th>
                   <th>Harga Alat</th>
                   <th>Status</th>
+                  <th>Deskripsi</th>
+                  <th>Total Harga</th>
                   <th>Action</th>
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data, index) in DataPesananTeknisi" :key="data.id">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ data.id_pelanggan }}</td>
-                  <td>{{ data.id_admin }}</td>
-                  <td>{{ data.id_teknisi }}</td>
-                  <td>{{ data.layanan }}</td>
-                  <td>{{ data.masalah }}</td>
-                  <td>{{ data.harga_jasa }}</td>
-                  <td>{{ data.harga_alat }}</td>
-                  <td>{{ data.status}}</td>
-                  <td>
-                    <button class="btn btn-warning" @click="editpesanan(index)">Edit</button>
-                    &nbsp;
-                    <!-- <button type="button" class="btn btn-danger" @click="deleteLayanan(index)">
-                      Hapus
-                    </button> -->
-                  </td>
-                </tr>
+                <template v-if="DataPesananTeknisi.length > 0">
+                  <tr v-for="(data, index) in DataPesananTeknisi" :key="data.id">
+                    <td>{{ index + 1 }}</td>
+                    <td :class="{ 'text-danger': !data.username }">{{ data.username || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.layanan }">{{ data.layanan || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.masalah }">{{ data.masalah || 'Data kosong' }}</td>
+                    <template v-if="data.tgl_pesan_awal">
+                      <td>{{ formatDate(data.tgl_pesan_awal) }}</td>
+                    </template>
+                    <template v-else>
+                      <td class="text-danger">Data kosong</td>
+                    </template>
+                    <template v-if="data.tgl_pesan_selesai">
+                      <td>{{ formatDate(data.tgl_pesan_selesai) }}</td>
+                    </template>
+                    <template v-else>
+                      <td class="text-danger">Data kosong</td>
+                    </template>
+                    <td :class="{ 'text-danger': !data.harga_jasa }">{{ data.harga_jasa || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.harga_alat }">{{ data.harga_alat || 'Data kosong' }}</td>
+                    <td>
+                      <span v-if="data.status === 1">Menunggu Konfirmasi</span>
+                      <span v-else-if="data.status === 2" class="text-warning">Proses Pengerjaan</span>
+                      <span v-else-if="data.status === 3" class="text-warning">Perbaikan Selesai</span>
+                      <span v-else class="text-danger">Data kosong</span>
+                    </td>
+                    <td :class="{ 'text-danger': !data.deskripsi }">{{ data.deskripsi || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.harga_jasa || !data.harga_alat }">
+                      {{ calculateTotal(data.harga_jasa, data.harga_alat) || 'Data kosong' }}
+                    </td>
+                    <td>
+                      <button class="btn btn-warning" @click="editpesanan(index)">Edit</button>
+                      &nbsp;
+                      <!-- <button type="button" class="btn btn-danger" @click="deleteLayanan(index)">
+                        Hapus
+                      </button> -->
+                    </td>
+                  </tr>
+                </template>
+                <template v-else>
+                  <tr>
+                    <td colspan="12" class="text-danger">Belum Ada Pesanan</td>
+                  </tr>
+                </template>
               </tbody>
             </table>
           </div>
@@ -135,9 +158,15 @@ export default {
       id: null,
       showModal: false,
       DataPesananTeknisi: [],
-      hargajasa:'',
-      hargaalat:'',
-      status:'',
+      hargajasa: '',
+      hargaalat: '',
+      tglServis: '',
+      deskripsi: '',
+      status: '',
+      statusOption: [
+        { label: 'Proses Pengerjaan', value: '2' },
+        { label: 'Perbaikan Selesai', value: '3' }
+      ],
 
     };
   },
@@ -147,7 +176,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/data-layanan-teknisi');
         this.DataPesananTeknisi = response.data;
-        console.log('cek', response.data);
+        // console.log('cek', response.data);
       } catch (error) {
         console.error(error);
       }
@@ -157,62 +186,78 @@ export default {
       this.id = null;
       this.layanan = '';
       this.namapelanggan = '';
-      this.namaadmin ='';
-      this.namateknisi ='';
-      this.masalah ='';
-      this.hargajasa ='';
-      this.hargaalat ='';
-      this.status ='';
+      this.masalah = '';
+      this.tglServis = '';
+      this.hargajasa = '';
+      this.hargaalat = '';
+      this.deskripsi = '';
+      this.status = '';
       this.$refs.baseModal.close();
     },
 
     editpesanan(index) {
       const pesanan = this.DataPesananTeknisi[index];
+      // console.log('test', pesanan);
       this.id = pesanan.id;
-      this.namapelanggan = pesanan.id_pelanggan;
-      this.namaadmin = pesanan.id_admin;
-      this.namateknisi = pesanan.id_teknisi;
+      this.namapelanggan = pesanan.username;
       this.layanan = pesanan.layanan;
       this.masalah = pesanan.masalah;
       this.hargajasa = pesanan.harga_jasa;
       this.hargaalat = pesanan.harga_alat;
       this.status = pesanan.status;
+      this.tglServis = pesanan.tgl_pesan_selesai;
+      this.deskripsi = pesanan.deskripsi;
       this.showModal = true;
     },
 
     async edit() {
       try {
-      const response = await axios.put (`http://localhost:8000/api/update-pesanan/${this.id}`,{
-      id : this.id,
-      // id_pelanggan: this.namapelanggan,
-      // id_admin: this.namaadmin,
-      // layanan: this.layanan,
-      // masalah:this.masalah ,
-      jasa: this.hargajasa,
-      alat: this.hargaalat,
-      status: this.status,
-    
-    });
-    
-      
-      if (response && response.data && response.data.error) {
+        const response = await axios.put(`http://localhost:8000/api/update-pesanan-teknisi/${this.id}`, {
+          id: this.id,
+          tglServis: this.tglServis,
+          deskripsi: this.deskripsi,
+          jasa: this.hargajasa,
+          alat: this.hargaalat,
+          status: this.status,
+        });
+
+
+        if (response && response.data && response.data.error) {
           console.error(response.data.error);
 
         } else {
           const savedDataMessage = `data berhasil disimpan`;
           alert(savedDataMessage);
           console.log(response.data);
-          this.getData(); 
-          this.closeModal();        
+          this.getData();
+          this.closeModal();
           // this.harga = null;
           this.$router.replace({ path: '/Pesanan-Teknisi' });
         }
-   
-        
-      
-      }catch (error) {
+
+
+
+      } catch (error) {
         console.error(error);
       }
+    },
+
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      const day = date.getDate();
+      const month = date.getMonth() + 1;
+      const year = date.getFullYear();
+      const formattedDate = `${day < 10 ? '0' : ''}${day}-${month < 10 ? '0' : ''}${month}-${year}`;
+
+      return formattedDate;
+    },
+
+    calculateTotal(hargaJasa, hargaAlat) {
+      if (!hargaJasa || !hargaAlat) {
+        return 'Data kosong';
+      }
+      const total = parseFloat(hargaJasa) + parseFloat(hargaAlat);
+      return total;
     },
   }
 };

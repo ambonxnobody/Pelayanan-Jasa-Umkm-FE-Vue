@@ -80,27 +80,34 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data, index) in filteredDataPesananAdmin" :key="data.id">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ data.id_pelanggan }}</td>
-                  <td>{{ data.id_admin }}</td>
-                  <td>{{ data.id_teknisi }}</td>
-                  <td>{{ data.layanan }}</td>
-                  <td>{{ data.masalah }}</td>
-                  <td>{{ data.harga_jasa }}</td>
-                  <td>{{ data.harga_alat }}</td>
-                  <td>
-                    <span v-if="data.status === 0">Menunggu Konfirmasi</span>
-                    <span v-else>{{ data.status }}</span>
-                  </td>
-                  <td>
-                    <button class="btn btn-warning" @click="editpesanan(index)">Edit</button>
-                    &nbsp;
-                    <!-- <button type="button" class="btn btn-danger" @click="deleteLayanan(index)">
+                <template v-if="DataPesananAdmin.length > 0">
+                  <tr v-for="(data, index) in DataPesananAdmin" :key="data.id">
+                    <td>{{ index + 1 }}</td>
+                    <td>{{ data.id_pelanggan }}</td>
+                    <td>{{ data.id_admin }}</td>
+                    <td>{{ data.id_teknisi }}</td>
+                    <td>{{ data.layanan }}</td>
+                    <td>{{ data.masalah }}</td>
+                    <td>{{ data.harga_jasa }}</td>
+                    <td>{{ data.harga_alat }}</td>
+                    <td>
+                      <span v-if="data.status === 0">Menunggu Konfirmasi</span>
+                      <span v-else>{{ data.status }}</span>
+                    </td>
+                    <td>
+                      <button class="btn btn-warning" @click="editpesanan(index)">Edit</button>
+                      &nbsp;
+                      <!-- <button type="button" class="btn btn-danger" @click="deleteLayanan(index)">
                       Hapus
                     </button> -->
-                  </td>
-                </tr>
+                    </td>
+                  </tr>
+                </template>
+                <template v-else>
+                  <tr>
+                    <td colspan="12" class="text-danger">Belum Ada Pesanan</td>
+                  </tr>
+                </template>
               </tbody>
             </table>
           </div>
@@ -117,12 +124,6 @@ import axios from 'axios';
 
 export default {
   name: "PesananAdmin",
-
-  computed: {
-    filteredDataPesananAdmin() {
-      return this.DataPesananAdmin.filter(data => data.status !== 1);
-    }
-  },
 
   mounted() {
     this.getData();
@@ -155,7 +156,6 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
         this.DataPesananAdmin = response.data;
-        console.log('cek', response.data);
       } catch (error) {
         console.error(error);
       }
@@ -165,7 +165,6 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/get-usertek');
         this.namaTeknisi = response.data;
-
       } catch (error) {
         console.error(error);
       }
@@ -188,11 +187,12 @@ export default {
     editpesanan(index) {
       if (index >= 0 && index < this.DataPesananAdmin.length) {
         const pesanan = this.DataPesananAdmin[index];
-        console.log(pesanan);
+
+        console.log('pesanan :', pesanan);
         this.id = pesanan.id;
         this.namapelanggan = pesanan.id_pelanggan;
         this.namaadmin = this.usernameAdmin;
-        this.namateknisi = pesanan.id_teknisi;
+        this.namateknisi = this.selectnamaTeknisi;
         this.layanan = pesanan.layanan;
         this.masalah = pesanan.masalah;
         this.hargajasa = pesanan.harga_jasa;
@@ -208,6 +208,7 @@ export default {
         const response = await axios.put(`http://localhost:8000/api/update-pesanan-admin/${this.id}`, {
           id: this.id,
           id_admin: this.idAdmin,
+          id_teknisi: this.selectnamaTeknisi,
           status: this.status === "Proses Pesanan" ? "1" : this.status,
         });
 
