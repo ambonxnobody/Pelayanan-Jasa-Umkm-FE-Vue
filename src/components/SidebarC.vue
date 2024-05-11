@@ -31,6 +31,12 @@
             <span class="align-middle">Tambah User</span>
           </router-link>
         </li>
+        <li class="sidebar-item" v-if="userRole === 'Admin'">
+          <router-link to="/riwayat-admin" class="sidebar-link">
+            <i class="align-middle" data-feather="sliders"></i>
+            <span class="align-middle">Riwayat Admin</span>
+          </router-link>
+        </li>
         <li class="sidebar-header" v-if="userRole === 'Teknisi'">
           Pages Teknisi
         </li>
@@ -44,6 +50,12 @@
           <router-link to="pesanan-teknisi" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
             <span class="align-middle">Pesanan Teknisi</span>
+          </router-link>
+        </li>
+        <li class="sidebar-item" v-if="userRole === 'Teknisi'">
+          <router-link to="/riwayat-teknisi" class="sidebar-link">
+            <i class="align-middle" data-feather="sliders"></i>
+            <span class="align-middle">Riwayat Teknisi</span>
           </router-link>
         </li>
 

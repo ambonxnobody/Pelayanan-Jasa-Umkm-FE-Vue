@@ -133,6 +133,30 @@ const routes = [{
     }
   },
   {
+    path: '/riwayat-admin',
+    name: 'riwayat-admin',
+    component: () => import('@/views/pages/Riwayat/RiwayatAdmin.vue'),
+    meta: {
+      title: 'Riwayat Admin',
+      requiresAuth: true,
+      meta: {
+        requiresAuth: true
+      },
+    }
+  },
+  {
+    path: '/riwayat-teknisi',
+    name: 'riwayat-teknisi',
+    component: () => import('@/views/pages/Riwayat/RiwayatTeknisi.vue'),
+    meta: {
+      title: 'Riwayat Teknisi',
+      requiresAuth: true,
+      meta: {
+        requiresAuth: true
+      },
+    }
+  },
+  {
     path: '/login',
     name: 'login',
     component: () => import('@/views/pages/Login.vue'),
