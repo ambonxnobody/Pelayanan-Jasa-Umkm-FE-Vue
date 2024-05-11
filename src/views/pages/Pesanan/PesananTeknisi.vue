@@ -14,20 +14,6 @@
             <div class="card-body">
               <form @submit.prevent="edit">
                 <div class="mb-3">
-                  <label class="form-label">Nama Pelanggan</label>
-                  <input v-model="namapelanggan" class="form-control" name="namapelanggan" cols="30" rows="10"
-                    readonly />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Layanan</label>
-                  <input v-model="layanan" class="form-control" name="layanan" cols="30" rows="10" readonly />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">masalah</label>
-                  <textarea v-model="masalah" class="form-control" name="masalah" cols="30" rows="10"
-                    readonly></textarea>
-                </div>
-                <div class="mb-3">
                   <label class="form-label">Harga Jasa</label>
                   <input v-model="hargajasa" class="form-control" name="hargajasa" cols="30" rows="10" />
                 </div>
@@ -184,9 +170,6 @@ export default {
 
     closeModal() {
       this.id = null;
-      this.layanan = '';
-      this.namapelanggan = '';
-      this.masalah = '';
       this.tglServis = '';
       this.hargajasa = '';
       this.hargaalat = '';
@@ -199,9 +182,6 @@ export default {
       const pesanan = this.DataPesananTeknisi[index];
       // console.log('test', pesanan);
       this.id = pesanan.id;
-      this.namapelanggan = pesanan.username;
-      this.layanan = pesanan.layanan;
-      this.masalah = pesanan.masalah;
       this.hargajasa = pesanan.harga_jasa;
       this.hargaalat = pesanan.harga_alat;
       this.status = pesanan.status;
