@@ -84,7 +84,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/riwayat-pesanan-Teknisi');
         this.riwayatPesanan = response.data;
-        console.log('cek', this.riwayatPesanan);
+        // console.log('cek', this.riwayatPesanan);
       } catch (error) {
         console.error(error);
       }

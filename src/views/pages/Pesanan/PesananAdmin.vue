@@ -26,7 +26,11 @@
                 </div>
                 <div class="mb-3">
                   <label class="form-label">Status</label>
-                  <input v-model="status" class="form-control" name="status" cols="30" rows="10" readonly />
+                  <select v-model="status" class="form-select" @change="setRole">
+                    <option value="" disabled selected>Pilih Status</option>
+                    <option v-for="option in statusOption" :key="option.value" :value="option.value">
+                      {{ option.label }}</option>
+                  </select>
                 </div>
               </form>
             </div>
@@ -37,7 +41,7 @@
         </template>
       </BaseModal>
     </div>
-    
+
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -114,6 +118,10 @@ export default {
       showModal: false,
       DataPesananAdmin: [],
       status: '',
+      statusOption: [
+        { label: 'Proses Pesanan', value: '1' },
+        { label: 'Pesanan Dibatalkan', value: '4' }
+      ],
       namaTeknisi: [],
       selectnamaTeknisi: null,
     };
@@ -153,7 +161,7 @@ export default {
         this.id = pesanan.id;
         this.namaadmin = this.usernameAdmin;
         this.namateknisi = this.selectnamaTeknisi;
-        this.status = "Proses Pesanan";
+        this.status = this.status;
         this.selectnamaTeknisi = pesanan.id_teknisi;
         this.showModal = true;
       }
@@ -165,7 +173,7 @@ export default {
           id: this.id,
           id_admin: this.idAdmin,
           id_teknisi: this.selectnamaTeknisi,
-          status: this.status === "Proses Pesanan" ? "1" : this.status,
+          status: this.status,
         });
 
         if (response && response.data && response.data.error) {

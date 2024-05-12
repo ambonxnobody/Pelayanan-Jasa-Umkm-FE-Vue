@@ -18,6 +18,7 @@
                   <th>Status</th>
                   <th>Deskripsi</th>
                   <th>Total Biaya</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -49,6 +50,12 @@
                   <td :class="{ 'text-danger': !pesanan.harga_jasa || !pesanan.harga_alat }">
                     {{ calculateTotal(pesanan.harga_jasa, pesanan.harga_alat) || 'Pesanan kosong' }}
                   </td>
+                  <td>
+                    <button v-if="pesanan.status === 0" class="btn btn-danger" @click="edit(pesanan.id)">
+                      Cancel
+                    </button>
+                    <img v-else src="@/assets/check.svg" alt="Gambar" style="width: 24px; height: 24px;">
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -73,7 +80,8 @@ export default {
 
   data() {
     return {
-      riwayatPesanan: []
+      riwayatPesanan: [],
+      status: '',
     };
   },
 
@@ -82,9 +90,27 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/riwayat-pesanan');
         this.riwayatPesanan = response.data;
-        console.log('cek', this.riwayatPesanan);
+        // console.log('cek', this.riwayatPesanan);
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    edit(id) {
+      if (confirm("Apakah Anda yakin ingin membatalkan pesanan ini?")) {
+        axios.patch(`http://localhost:8000/api/cancel-pesanan/${id}`, { status: 4 })
+          .then(response => {
+            console.log(response.data);
+            const statusCancel = "Pesanan Dibatalkan";
+            alert(statusCancel);
+            const pesananIndex = this.riwayatPesanan.findIndex(pesanan => pesanan.id === id);
+            if (pesananIndex !== -1) {
+              this.riwayatPesanan[pesananIndex].status = 4;
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
       }
     },
 
