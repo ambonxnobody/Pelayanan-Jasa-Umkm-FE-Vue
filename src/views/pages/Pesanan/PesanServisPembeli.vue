@@ -1,7 +1,6 @@
 <template>
   <div class="container-fluid p-0">
-    <h1 class="h3 mb-3"><strong>Pesan Servis Pembeli</strong></h1>
-
+    <h1 class="h3 mb-3"><strong>Pesan Servis Pelanggan</strong></h1>
     <div class="row">
       <div class="col-12">
         <div class="card">
@@ -9,8 +8,8 @@
             <form @submit.prevent="pesan">
               <div class="mb-3">
                 <label class="form-label">Nama Elektronik</label>
-                <select v-model="selectedNamaElektronik" class="form-select">
-                  <option :value="null" disabled selected>Pilih Elektronik</option>
+                <select ref="select2" v-model="selectedNamaElektronik" class="form-control">
+                  <option :value="null" disabled>Pilih Elektronik</option>
                   <option v-for="option in namaElektronikOptions" :key="option.id" :value="option.id">
                     {{ option.deskripsi }}
                   </option>
@@ -37,9 +36,11 @@
   </div>
 </template>
 
+
 <script>
 import feather from "feather-icons";
 import axios from 'axios';
+
 export default {
   name: "PesanServis",
 
@@ -92,19 +93,31 @@ export default {
 
         if (response && response.data && response.data.error) {
           console.error(response.data.error);
-
+          Swal.fire(
+            'Error',
+            'Gagal menyimpan pesanan.',
+            'error'
+          );
         } else {
-          const savedDataMessage = `Pesanan berhasil disimpan`;
-          alert(savedDataMessage);
+          Swal.fire(
+            'Berhasil',
+            'Pesanan berhasil disimpan.',
+            'success'
+          );
           console.log(response.data);
           this.selectedNamaElektronik = null;
           this.detailMasalah = '';
           this.tglServis = '';
-          this.$router.replace({ path: '/pesan-servis-pembeli' });
+          this.$router.replace({ path: '/pesan-servis-pelanggan' });
         }
 
       } catch (error) {
         console.error(error);
+        Swal.fire(
+          'Error',
+          'Terjadi kesalahan saat menyimpan pesanan.',
+          'error'
+        );
       }
     },
   },

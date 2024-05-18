@@ -134,7 +134,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
         this.DataPesananAdmin = response.data;
-        console.log('data admin',this.DataPesananAdmin);
+        // console.log('data admin',this.DataPesananAdmin);
       } catch (error) {
         console.error(error);
       }
@@ -181,18 +181,29 @@ export default {
 
         if (response && response.data && response.data.error) {
           console.error(response.data.error);
-
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Gagal memperbarui data pengguna.',
+          });
         } else {
-          const savedDataMessage = `data berhasil disimpan`;
-          alert(savedDataMessage);
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: 'Data berhasil disimpan!',
+          });
           console.log(response.data);
           this.getData();
           this.closeModal();
-          // this.harga = null;
           this.$router.replace({ path: '/Pesanan-admin' });
         }
       } catch (error) {
         console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Kesalahan',
+          text: 'Terjadi kesalahan saat memperbarui data.',
+        });
       }
     },
   }

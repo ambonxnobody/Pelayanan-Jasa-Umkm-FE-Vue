@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid p-0">
-    <h1 class="h3 mb-3 text-center"><strong>Riwayat Pembeli</strong></h1>
+    <h1 class="h3 mb-3 text-center"><strong>Riwayat Pelanggan</strong></h1>
 
     <div class="row">
       <div class="col-12">
@@ -97,21 +97,40 @@ export default {
     },
 
     edit(id) {
-      if (confirm("Apakah Anda yakin ingin membatalkan pesanan ini?")) {
-        axios.patch(`http://localhost:8000/api/cancel-pesanan/${id}`, { status: 4 })
-          .then(response => {
-            console.log(response.data);
-            const statusCancel = "Pesanan Dibatalkan";
-            alert(statusCancel);
-            const pesananIndex = this.riwayatPesanan.findIndex(pesanan => pesanan.id === id);
-            if (pesananIndex !== -1) {
-              this.riwayatPesanan[pesananIndex].status = 4;
-            }
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
+      Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Anda ingin membatalkan pesanan ini?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, batalkan!',
+        cancelButtonText: 'Tidak'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.patch(`http://localhost:8000/api/cancel-pesanan/${id}`, { status: 4 })
+            .then(response => {
+              console.log(response.data);
+              Swal.fire(
+                'Dibatalkan!',
+                'Pesanan telah dibatalkan.',
+                'success'
+              );
+              const pesananIndex = this.riwayatPesanan.findIndex(pesanan => pesanan.id === id);
+              if (pesananIndex !== -1) {
+                this.riwayatPesanan[pesananIndex].status = 4;
+              }
+            })
+            .catch(error => {
+              console.error(error);
+              Swal.fire(
+                'Error',
+                'Terjadi kesalahan saat membatalkan pesanan.',
+                'error'
+              );
+            });
+        }
+      });
     },
 
     formatDate(dateString) {

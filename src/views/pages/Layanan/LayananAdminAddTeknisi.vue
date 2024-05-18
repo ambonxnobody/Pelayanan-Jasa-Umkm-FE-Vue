@@ -24,6 +24,11 @@
                                     placeholder="Username" />
                             </div>
                             <div class="mb-3">
+                                <label class="form-label">No.Telp</label>
+                                <input v-model="no_telp" class="form-control" type="text" name="no_telp"
+                                    placeholder="No.Telp" />
+                            </div>
+                            <div class="mb-3">
                                 <label class="form-label">Password</label>
                                 <input v-model="password" class="form-control" type="password" name="password"
                                     placeholder="Password" />
@@ -54,6 +59,7 @@
                                     <th class="text-center">No</th>
                                     <th class="text-center">Nama</th>
                                     <th class="text-center">Username</th>
+                                    <th class="text-center">No.Telp</th>
                                     <th class="text-center action-column">Action</th>
                                 </tr>
                             </thead>
@@ -62,6 +68,7 @@
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ user.name }}</td>
                                     <td>{{ user.username }}</td>
+                                    <td>{{ user.no_telp }}</td>
                                     <td class="d-flex">
                                         <div class=" col-4"> <button class="btn btn-warning mr-2"
                                                 @click="editUser(index)">Edit</button>
@@ -103,6 +110,7 @@ export default {
                 { label: 'Teknisi', value: 'Teknisi' }
             ],
             username: '',
+            no_telp: '',
             password: '',
             role: '',
             getUser: []
@@ -121,6 +129,7 @@ export default {
             this.id = null;
             this.nama = '';
             this.username = '';
+            this.no_telp = '';
             this.password = '';
             this.role = '';
             this.$refs.baseModal.close();
@@ -130,6 +139,7 @@ export default {
             this.id = user.id;
             this.nama = user.name;
             this.username = user.username;
+            this.no_telp = user.no_telp;
             this.password = '';
             this.role = user.role;
             this.showModal = true;
@@ -137,20 +147,32 @@ export default {
         deleteUser(index) {
             const user = this.getUser[index];
             const userId = user.id;
-
-            if (confirm("Apakah Anda yakin ingin menghapus pengguna ini?")) {
-                axios.delete(`http://localhost:8000/api/submit-delete-user/${userId}`)
-                    .then(response => {
-                        console.log(response.data);
-                        const deletedDataMessage = "Data pengguna berhasil dihapus.";
-                        alert(deletedDataMessage);
-                        this.getUser.splice(index, 1);
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            }
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan tindakan ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus saja!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`http://localhost:8000/api/submit-delete-user/${userId}`)
+                        .then(response => {
+                            console.log(response.data);
+                            const deletedDataMessage = "Data pengguna berhasil dihapus.";
+                            Swal.fire('Success', deletedDataMessage, 'success');
+                            this.getUser.splice(index, 1);
+                        })
+                        .catch(error => {
+                            console.error(error);
+                            Swal.fire('Error', 'Terjadi kesalahan saat menghapus data', 'error');
+                        });
+                }
+            });
         },
+
         pesan() {
             const endpoint = this.id ? `http://localhost:8000/api/submit-update-user/${this.id}` : 'http://localhost:8000/api/submit-user';
             const method = this.id ? 'put' : 'post';
@@ -158,15 +180,17 @@ export default {
                 nama: this.nama,
                 username: this.username,
                 password: this.password,
+                no_telp: this.no_telp,
                 role: this.role
             }).then(response => {
                 console.log(response.data);
                 const savedDataMessage = `Data berhasil ${this.id ? 'diubah' : 'disimpan'}`;
-                alert(savedDataMessage);
+                Swal.fire('Success', savedDataMessage, 'success');
                 this.closeModal();
                 this.getData();
             }).catch(error => {
                 console.error(error);
+                Swal.fire('Error', 'Terjadi kesalahan saat menyimpan data', 'error');
             });
         },
         setRole() {

@@ -1,10 +1,10 @@
 <template>
   <div class="container-fluid p-0">
-    <h1 class="h3 mb-3">
-      <strong>Layanan Admin</strong>
+    <h1 class="h3 mb-3 text-center">
+      <strong >Layanan Admin</strong>
     </h1>
     <div>
-      <button class="btn btn-primary" @click="showModal = true">Tambah</button>
+      <button class="btn btn-primary" @click="showModal = true; console.log('showModal:', showModal)">Tambah</button>
       <BaseModal v-if="showModal" ref="baseModal" @close="showModal = false">
         <template v-slot:header>
           <h2 class="modal-title">Form Data</h2>
@@ -87,6 +87,7 @@
 </template>
 <script>
 import BaseModal from '../../../components/Modal.vue';
+// import MyModal from '../../../components/ModalTest.vue';
 import feather from "feather-icons";
 import axios from 'axios';
 
@@ -114,6 +115,7 @@ export default {
   components: {
     BaseModal,
   },
+
   methods: {
     async getData() {
       try {
@@ -145,6 +147,7 @@ export default {
     editLayanan(index) {
       const layanan = this.DataLayanan[index];
       this.id = layanan.id;
+      console.log(layanan.id);
       this.namaLayanan = layanan.layanan;
       this.Deskripsi = layanan.deskripsi;
       this.teknisi = layanan.teknisi;
@@ -156,40 +159,52 @@ export default {
       const layanan = this.DataLayanan[index];
       const layananId = layanan.id;
 
-      if (confirm("Apakah Anda yakin ingin menghapus pengguna ini?")) {
-        axios.delete(`http://localhost:8000/api/delete-layanan/${layananId}`)
-          .then(response => {
-            console.log(response.data);
-            const deletedDataMessage = "Data pengguna berhasil dihapus.";
-            alert(deletedDataMessage);
-            this.DataLayanan.splice(index, 1);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
+      Swal.fire({
+        title: 'Apakah Anda yakin?',
+        text: "Anda tidak akan dapat mengembalikan tindakan ini!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Ya, hapus saja!',
+        cancelButtonText: 'Batal'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete(`http://localhost:8000/api/delete-layanan/${layananId}`)
+            .then(response => {
+              console.log(response.data);
+              const deletedDataMessage = "Data pengguna berhasil dihapus.";
+              Swal.fire('Success', deletedDataMessage, 'success');
+              this.DataLayanan.splice(index, 1);
+            })
+            .catch(error => {
+              console.error(error);
+              Swal.fire('Error', 'Terjadi kesalahan saat menghapus data', 'error');
+            });
+        }
+      });
     },
 
     tambah() {
-      const selectedOption = this.namaTeknisi.find(option => option.id === this.selectnamaTeknisi);
       const endpoint = this.id ? `http://localhost:8000/api/update-layanan/${this.id}` : 'http://localhost:8000/api/tambah-layanan';
       const method = this.id ? 'put' : 'post';
       axios[method](endpoint, {
         nama_layanan: this.namaLayanan,
         deskripsi: this.Deskripsi,
-        teknisi: selectedOption.id,
+        teknisi: this.selectnamaTeknisi,
       }).then(response => {
         console.log(response.data);
         const savedDataMessage = `Data berhasil ${this.id ? 'diubah' : 'disimpan'}`;
-        alert(savedDataMessage);
+        Swal.fire('Success', savedDataMessage, 'success');
         this.closeModal();
         this.getData();
         this.getUserTek();
       }).catch(error => {
         console.error(error);
+        Swal.fire('Error', 'Terjadi kesalahan saat menyimpan data', 'error');
       });
     },
-  }
+  },
 };
 
 </script>

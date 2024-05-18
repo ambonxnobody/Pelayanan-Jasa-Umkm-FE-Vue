@@ -7,7 +7,7 @@
                     <slot name="header">
                         This is the default title!
                     </slot>
-
+                    <button type="button" class="btn-close" @click="close" aria-label="Close"></button>
                 </header>
 
                 <section class="modal-body" id="modalDescription">
@@ -57,11 +57,12 @@ export default {
 .modal {
     background: #FFFFFF;
     box-shadow: 2px 2px 20px 1px;
-    overflow-x: auto;
+    overflow-x: hidden;
     display: flex;
     flex-direction: column;
     max-width: 800px;
-    width: 100%;
+    width: 800px;
+ 
 }
 
 .modal-header,
@@ -86,6 +87,8 @@ export default {
 .modal-body {
     position: relative;
     padding: 20px 10px;
+    max-height: 400px;
+    overflow-y: auto;
 }
 
 .btn-close {

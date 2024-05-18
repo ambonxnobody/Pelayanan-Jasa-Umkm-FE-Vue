@@ -73,8 +73,11 @@
                 <template v-if="DataPesananTeknisi.length > 0">
                   <tr v-for="(data, index) in DataPesananTeknisi" :key="data.id">
                     <td>{{ index + 1 }}</td>
-                    <td :class="{ 'text-danger': !data.username }">{{ data.username || 'Data kosong' }}</td>
-                    <td :class="{ 'text-danger': !data.user_pelanggan.no_telp }">{{ data.user_pelanggan.no_telp || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.user_pelanggan.username }">{{ data.user_pelanggan.username ||
+        'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.user_pelanggan.no_telp }">
+                      {{ data.user_pelanggan.no_telp || 'Data kosong' }}
+                    </td>
                     <td :class="{ 'text-danger': !data.layanan }">{{ data.layanan || 'Data kosong' }}</td>
                     <td :class="{ 'text-danger': !data.masalah }">{{ data.masalah || 'Data kosong' }}</td>
                     <template v-if="data.tgl_pesan_awal">
@@ -162,7 +165,9 @@ export default {
   methods: {
     async getData() {
       try {
-        const response = await axios.get('http://localhost:8000/api/data-layanan-teknisi');
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userID = userData.data.id;
+        const response = await axios.get(`http://localhost:8000/api/data-layanan-teknisi/${userID}`);
         this.DataPesananTeknisi = response.data;
         console.log('cek', response.data);
       } catch (error) {
@@ -182,8 +187,8 @@ export default {
 
     editpesanan(index) {
       const pesanan = this.DataPesananTeknisi[index];
-      // console.log('test', pesanan);
       this.id = pesanan.id;
+      console.log(pesanan.id);
       this.hargajasa = pesanan.harga_jasa;
       this.hargaalat = pesanan.harga_alat;
       this.status = pesanan.status;
@@ -203,24 +208,30 @@ export default {
           status: this.status,
         });
 
-
         if (response && response.data && response.data.error) {
           console.error(response.data.error);
-
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal',
+            text: 'Gagal memperbarui data pengguna.',
+          });
         } else {
-          const savedDataMessage = `data berhasil disimpan`;
-          alert(savedDataMessage);
-          console.log(response.data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Berhasil',
+            text: 'Data berhasil disimpan!',
+          });
           this.getData();
           this.closeModal();
-          // this.harga = null;
           this.$router.replace({ path: '/Pesanan-Teknisi' });
         }
-
-
-
       } catch (error) {
         console.error(error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Kesalahan',
+          text: 'Terjadi kesalahan saat memperbarui data.',
+        });
       }
     },
 

@@ -1,7 +1,7 @@
 <template>
   <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
-      <router-link to="/dashboard" class="sidebar-brand d-flex align-items-center">
+      <router-link :to="dashboardLink" class="sidebar-brand d-flex align-items-center">
         <img :src="require('@/assets/LogoProfile.png')" class="img-fluid small-image" alt="Responsive image" />
         <span class="align-middle">Faiz Teknik Blitar</span>
       </router-link>
@@ -34,10 +34,12 @@
         <li class="sidebar-item" v-if="userRole === 'Admin'">
           <router-link to="/riwayat-admin" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Riwayat Pembeli</span>
+            <span class="align-middle">Riwayat Pelanggan</span>
           </router-link>
         </li>
-        <li class="sidebar-header" v-if="userRole === 'Teknisi'">Pages Teknisi</li>
+        <li class="sidebar-header" v-if="userRole === 'Teknisi'">
+          Pages Teknisi
+        </li>
         <li class="sidebar-item" v-if="userRole === 'Teknisi'">
           <router-link to="/dashboard-teknisi" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
@@ -58,25 +60,25 @@
         </li>
         <li class="sidebar-header" v-if="userRole === 'Pelanggan'">Pages Pelanggan</li>
         <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
-          <router-link to="/dashboard-pembeli" class="sidebar-link">
+          <router-link to="/dashboard-pelanggan" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Dashboard Pelanggan</span>
+            <span class="align-middle">Dashboard pelanggan</span>
           </router-link>
         </li>
         <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
-          <router-link to="pesan-servis-pembeli" class="sidebar-link">
+          <router-link to="pesan-servis-pelanggan" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
             <span class="align-middle">Pesanan Pelanggan</span>
           </router-link>
         </li>
         <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
-          <router-link to="layanan-pembeli" class="sidebar-link">
+          <router-link to="layanan-pelanggan" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
             <span class="align-middle">Layanan Pelanggan</span>
           </router-link>
         </li>
         <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
-          <router-link to="riwayat-pembeli" class="sidebar-link">
+          <router-link to="riwayat-pelanggan" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
             <span class="align-middle">Riwayat Pelanggan</span>
           </router-link>
@@ -88,12 +90,14 @@
 
 <script>
 import axios from 'axios';
-import feather from 'feather-icons';
+import feather from "feather-icons";
 export default {
-  name: 'SidebarC',
+
+  name: "SidebarC",
   data() {
     return {
-      userRole: ''
+      userRole: '',
+      dashboardLink: '',
     };
   },
   mounted() {
@@ -104,19 +108,15 @@ export default {
       const userData = JSON.parse(localStorage.getItem('user'));
       console.log('data user :', userData.data);
       this.userRole = userData.data.name;
-      if (this.userRole === 'admin') {
-      }
-      else if (this.userRole === 'teknisi') {
-      }
-      else if (this.userRole === 'pelanggan') {
-      }
+      this.dashboardLink = `/dashboard-${this.userRole}`;
     } else {
-      this.$router.push('/login');
+      const router = useRouter();
+      router.push('/login');
     }
-  }
+  },
 };
 </script>
-
+\
 <style scoped>
 .sidebar-brand {
   display: flex;

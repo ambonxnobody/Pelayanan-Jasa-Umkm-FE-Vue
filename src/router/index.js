@@ -38,7 +38,7 @@ const routes = [{
   {
     path: '/layanan-admin',
     name: 'layanan-admin',
-    component: () => import('@/views/pages/Layanan/TampilLayananPemilik.vue'),
+    component: () => import('@/views/pages/Layanan/LayananAdminAddLayanan.vue'),
     meta: {
       title: 'Layanan Admin',
       requiresAuth: true,
@@ -47,7 +47,7 @@ const routes = [{
       },
     },
   },
-  
+
   {
     path: '/layanan-admin-add-teknisi',
     name: 'layanan-admin-add-teknisi',
@@ -85,8 +85,8 @@ const routes = [{
     }
   },
   {
-    path: '/dashboard-pembeli',
-    name: 'dashboard-pembeli',
+    path: '/dashboard-pelanggan',
+    name: 'dashboard-pelanggan',
     component: () => import('@/views/pages/Dashboard/DashboardPembeli.vue'),
     meta: {
       title: 'Dashboard Pembeli',
@@ -97,8 +97,8 @@ const routes = [{
     }
   },
   {
-    path: '/pesan-servis-pembeli',
-    name: 'pesan-servis-pembeli',
+    path: '/pesan-servis-pelanggan',
+    name: 'pesan-servis-pelanggan',
     component: () => import('@/views/pages/Pesanan/PesanServisPembeli.vue'),
     meta: {
       title: 'Pesan Servis Pembeli',
@@ -109,8 +109,8 @@ const routes = [{
     }
   },
   {
-    path: '/layanan-pembeli',
-    name: 'layanan-pembeli',
+    path: '/layanan-pelanggan',
+    name: 'layanan-pelanggan',
     component: () => import('@/views/pages/Layanan/LayananPembeli.vue'),
     meta: {
       title: 'Layanan Pembeli',
@@ -121,8 +121,8 @@ const routes = [{
     }
   },
   {
-    path: '/riwayat-pembeli',
-    name: 'riwayat-pembeli',
+    path: '/riwayat-pelanggan',
+    name: 'riwayat-pelanggan',
     component: () => import('@/views/pages/Riwayat/RiwayatPembeli.vue'),
     meta: {
       title: 'Riwayat Pembeli',
@@ -165,7 +165,7 @@ const routes = [{
     }
   },
   {
-  path: '/registrasi',
+    path: '/registrasi',
     name: 'registrasi',
     component: () => import('@/views/pages/Registrasi.vue'),
     meta: {

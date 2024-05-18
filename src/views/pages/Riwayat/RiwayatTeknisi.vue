@@ -29,7 +29,8 @@
                   <td>{{ pesanan.user_pelanggan.no_telp }}</td>
                   <td>{{ pesanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
-                  <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>
+                  <td :class="{ 'text-danger': !pesanan.user_teknisi.username }">{{ pesanan.user_teknisi.username ||
+                  'Data kosong' }}</td>
                   <template v-if="pesanan.tgl_pesan_awal">
                     <td>{{ formatDate(pesanan.tgl_pesan_awal) }}</td>
                   </template>
@@ -84,9 +85,10 @@ export default {
   methods: {
     async getData() {
       try {
-        const response = await axios.get('http://localhost:8000/api/riwayat-pesanan-Teknisi');
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userID = userData.data.id;
+        const response = await axios.get(`http://localhost:8000/api/riwayat-pesanan-Teknisi/${userID}`);
         this.riwayatPesanan = response.data;
-        // console.log('cek', this.riwayatPesanan);
       } catch (error) {
         console.error(error);
       }

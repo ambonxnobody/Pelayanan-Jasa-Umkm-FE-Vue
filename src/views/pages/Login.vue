@@ -13,7 +13,7 @@
               <div class="card-body">
                 <div class="m-sm-4">
                   <form @submit.prevent="login">
-                   
+
                     <div class="mb-3">
                       <label for="username" class="form-label">Username:</label>
                       <input type="text" id="username" v-model="username" class="form-control form-control-lg"
@@ -66,7 +66,9 @@ export default {
           const data = response.data;
           localStorage.setItem("user", JSON.stringify(data));
           localStorage.setItem('token', token);
-          this.$router.push('/dashboard-admin');
+          const userData = JSON.parse(localStorage.getItem('user'));
+          this.userRole = userData.data.name;
+          this.$router.push(`/dashboard-${this.userRole}`);
         })
         .catch(error => {
           console.error('Error:', error);
