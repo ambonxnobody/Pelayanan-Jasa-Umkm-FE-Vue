@@ -11,6 +11,7 @@
                 <tr>
                   <th>No</th>
                   <th>Nama Pelanggan</th>
+                  <th>No.Telp</th>
                   <th>Nama Elektronik</th>
                   <th>Masalah</th>
                   <th>Teknisi</th>
@@ -24,7 +25,8 @@
               <tbody>
                 <tr v-for="(pesanan, index) in riwayatPesanan" :key="pesanan.id">
                   <td>{{ index + 1 }}</td>
-                  <td>{{ pesanan.id_pelanggan }}</td>
+                  <td>{{ pesanan.user_pelanggan.username }}</td>
+                  <td>{{ pesanan.user_pelanggan.no_telp }}</td>
                   <td>{{ pesanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
                   <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>

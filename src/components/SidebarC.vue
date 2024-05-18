@@ -1,10 +1,10 @@
 <template>
   <nav id="sidebar" class="sidebar js-sidebar">
     <div class="sidebar-content js-simplebar">
-      <router-link to="/dashboard" class="sidebar-brand">
+      <router-link to="/dashboard" class="sidebar-brand d-flex align-items-center">
+        <img :src="require('@/assets/LogoProfile.png')" class="img-fluid small-image" alt="Responsive image" />
         <span class="align-middle">Faiz Teknik Blitar</span>
       </router-link>
-      
       <ul class="sidebar-nav">
         <li class="sidebar-header" v-if="userRole === 'Admin'">Pages Admin</li>
         <li class="sidebar-item" v-if="userRole === 'Admin'">
@@ -34,12 +34,10 @@
         <li class="sidebar-item" v-if="userRole === 'Admin'">
           <router-link to="/riwayat-admin" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Riwayat Admin</span>
+            <span class="align-middle">Riwayat Pembeli</span>
           </router-link>
         </li>
-        <li class="sidebar-header" v-if="userRole === 'Teknisi'">
-          Pages Teknisi
-        </li>
+        <li class="sidebar-header" v-if="userRole === 'Teknisi'">Pages Teknisi</li>
         <li class="sidebar-item" v-if="userRole === 'Teknisi'">
           <router-link to="/dashboard-teknisi" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
@@ -58,31 +56,11 @@
             <span class="align-middle">Riwayat Teknisi</span>
           </router-link>
         </li>
-
-        <!-- <li class="sidebar-header">Pages Pemilik</li>
-        <li class="sidebar-item">
-          <router-link to="/dashboard-pemilik" class="sidebar-link">
-            <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Dashboard Pemilik</span>
-          </router-link>
-        </li>
-        <li class="sidebar-item">
-          <router-link to="pesanan-pemilik" class="sidebar-link">
-            <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Pesanan Pemilik</span>
-          </router-link>
-        </li>
-        <li class="sidebar-item">
-          <router-link to="layanan-pemilik" class="sidebar-link">
-            <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Layanan Pemilik</span>
-          </router-link>
-        </li> -->
         <li class="sidebar-header" v-if="userRole === 'Pelanggan'">Pages Pelanggan</li>
         <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
           <router-link to="/dashboard-pembeli" class="sidebar-link">
             <i class="align-middle" data-feather="sliders"></i>
-            <span class="align-middle">Dashboard pelanggan</span>
+            <span class="align-middle">Dashboard Pelanggan</span>
           </router-link>
         </li>
         <li class="sidebar-item" v-if="userRole === 'Pelanggan'">
@@ -110,10 +88,9 @@
 
 <script>
 import axios from 'axios';
-import feather from "feather-icons";
+import feather from 'feather-icons';
 export default {
-
-  name: "SidebarC",
+  name: 'SidebarC',
   data() {
     return {
       userRole: ''
@@ -125,22 +102,30 @@ export default {
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       const userData = JSON.parse(localStorage.getItem('user'));
-      console.log('data user :',userData.data);
-      this.userRole = userData.data.name; // Mengambil nilai role dari data pengguna
+      console.log('data user :', userData.data);
+      this.userRole = userData.data.name;
       if (this.userRole === 'admin') {
-
-      } else if (this.userRole === 'teknisi') {
-
-      } else if (this.userRole === 'pelanggan') {
-
+      }
+      else if (this.userRole === 'teknisi') {
+      }
+      else if (this.userRole === 'pelanggan') {
       }
     } else {
-      const router = useRouter();
-      router.push('/login');
+      this.$router.push('/login');
     }
-
-  },
-
+  }
 };
 </script>
-<style></style>
+
+<style scoped>
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+}
+
+.small-image {
+  width: 50px;
+  height: auto;
+  margin-right: 10px;
+}
+</style>

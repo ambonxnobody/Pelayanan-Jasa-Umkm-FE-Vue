@@ -53,6 +53,7 @@
                   <th>Nama Pelanggan</th>
                   <th>Layanan</th>
                   <th>Masalah</th>
+                  <th>No.Telp</th>
                   <th>Status</th>
                   <th>Action</th>
                 </tr>
@@ -61,9 +62,10 @@
                 <template v-if="DataPesananAdmin.length > 0">
                   <tr v-for="(data, index) in DataPesananAdmin" :key="data.id">
                     <td>{{ index + 1 }}</td>
-                    <td>{{ data.id_pelanggan }}</td>
+                    <td>{{ data.user_pelanggan.username }}</td>
                     <td>{{ data.layanan }}</td>
                     <td>{{ data.masalah }}</td>
+                    <td>{{ data.user_pelanggan.no_telp }}</td>
                     <td>
                       <span v-if="data.status === 0">Menunggu Konfirmasi</span>
                       <span v-else>{{ data.status }}</span>
@@ -132,6 +134,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
         this.DataPesananAdmin = response.data;
+        console.log('data admin',this.DataPesananAdmin);
       } catch (error) {
         console.error(error);
       }

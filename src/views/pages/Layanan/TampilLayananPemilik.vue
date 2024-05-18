@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid p-0">
     <h1 class="h3 mb-3">
-      <strong>Layanan Pemilik</strong>
+      <strong>Layanan Admin</strong>
     </h1>
     <div>
       <button class="btn btn-primary" @click="showModal = true">Tambah</button>

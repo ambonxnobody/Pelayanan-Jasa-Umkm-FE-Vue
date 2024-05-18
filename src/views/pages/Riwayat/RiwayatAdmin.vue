@@ -24,7 +24,7 @@
               <tbody>
                 <tr v-for="(pesanan, index) in riwayatPesanan" :key="pesanan.id">
                   <td>{{ index + 1 }}</td>
-                  <td>{{ pesanan.id_pelanggan }}</td>
+                  <td>{{ pesanan.user_pelanggan.username }}</td>
                   <td>{{ pesanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
                   <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>
@@ -84,7 +84,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/riwayat-pesanan-Admin');
         this.riwayatPesanan = response.data;
-        console.log('cek', this.riwayatPesanan);
+        // console.log('cek', this.riwayatPesanan);
       } catch (error) {
         console.error(error);
       }

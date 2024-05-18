@@ -56,6 +56,7 @@
                 <tr>
                   <th>No</th>
                   <th>Nama Pelanggan</th>
+                  <th>No.Telp</th>
                   <th>Layanan</th>
                   <th>Masalah</th>
                   <th>Tanggal Pesan</th>
@@ -73,6 +74,7 @@
                   <tr v-for="(data, index) in DataPesananTeknisi" :key="data.id">
                     <td>{{ index + 1 }}</td>
                     <td :class="{ 'text-danger': !data.username }">{{ data.username || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.user_pelanggan.no_telp }">{{ data.user_pelanggan.no_telp || 'Data kosong' }}</td>
                     <td :class="{ 'text-danger': !data.layanan }">{{ data.layanan || 'Data kosong' }}</td>
                     <td :class="{ 'text-danger': !data.masalah }">{{ data.masalah || 'Data kosong' }}</td>
                     <template v-if="data.tgl_pesan_awal">
@@ -162,7 +164,7 @@ export default {
       try {
         const response = await axios.get('http://localhost:8000/api/data-layanan-teknisi');
         this.DataPesananTeknisi = response.data;
-        // console.log('cek', response.data);
+        console.log('cek', response.data);
       } catch (error) {
         console.error(error);
       }
