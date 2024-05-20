@@ -65,6 +65,7 @@
                   <th>Harga Alat</th>
                   <th>Status</th>
                   <th>Deskripsi</th>
+                  <th>Alamat</th>
                   <th>Total Harga</th>
                   <th>Action</th>
                 </tr>
@@ -101,6 +102,7 @@
                       <span v-else class="text-danger">Data kosong</span>
                     </td>
                     <td :class="{ 'text-danger': !data.deskripsi }">{{ data.deskripsi || 'Data kosong' }}</td>
+                    <td>{{ data.alamat }}</td>
                     <td :class="{ 'text-danger': !data.harga_jasa || !data.harga_alat }">
                       {{ calculateTotal(data.harga_jasa, data.harga_alat) || 'Data kosong' }}
                     </td>

@@ -26,6 +26,11 @@
                   placeholder="Tanggal Servis" />
               </div>
               <div class="mb-3">
+                <label class="form-label">Alamat pelanggan</label>
+                <input v-model="alamat" class="form-control form-control-lg" name="alamat"
+                  placeholder="Alamat pelanggan" />
+              </div>
+              <div class="mb-3">
                 <button type="submit" class="btn btn-success">Pesan</button>
               </div>
             </form>
@@ -65,7 +70,8 @@ export default {
       namaElektronikOptions: [],
       detailMasalah: '',
       tglServis: '',
-      id_pelanggan: ''
+      id_pelanggan: '',
+      alamat: ''
     };
   },
 
@@ -88,7 +94,8 @@ export default {
           layanan: selectedOption.layanan,
           masalah: this.detailMasalah,
           tgl_pesan: this.tglServis,
-          id_pelanggan: this.id_pelanggan
+          id_pelanggan: this.id_pelanggan,
+          alamat: this.alamat
         });
 
         if (response && response.data && response.data.error) {

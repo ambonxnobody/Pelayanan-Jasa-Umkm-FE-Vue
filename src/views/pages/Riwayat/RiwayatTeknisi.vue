@@ -19,6 +19,7 @@
                   <th>Tanggal Selesai</th>
                   <th>Status</th>
                   <th>Deskripsi</th>
+                  <th>alamat</th>
                   <th>Total Biaya</th>
                 </tr>
               </thead>
@@ -51,6 +52,7 @@
                     <span v-else-if="pesanan.status === 4" class="text-danger">Pesanan Dibatalkan</span>
                   </td>
                   <td :class="{ 'text-danger': !pesanan.deskripsi }">{{ pesanan.deskripsi || 'Data kosong' }}</td>
+                  <td>{{ pesanan.alamat }}</td>
                   <td :class="{ 'text-danger': !pesanan.harga_jasa || !pesanan.harga_alat }">
                     {{ calculateTotal(pesanan.harga_jasa, pesanan.harga_alat) || 'Pesanan kosong' }}
                   </td>
