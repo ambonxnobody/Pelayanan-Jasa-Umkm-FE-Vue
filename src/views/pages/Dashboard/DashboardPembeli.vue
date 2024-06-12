@@ -27,6 +27,41 @@
         </div>
       </div>
     </div>
+    <table class="table table-striped table-bordered nowrap table-hover" id="example">
+              <thead class="text-center">
+                <tr>
+                  <th>No</th>
+                  <th>Nama Elektronik</th>
+                  <th>Masalah</th>
+                  <th>Teknisi</th>
+                  <th>Tanggal</th>
+                  <th>Tanggal Selesai</th>
+                  <th>Status</th>
+                  <th>Deskripsi</th>
+                  <th>alamat</th>
+                  <th>Total Biaya</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="(pesanan, index) in riwayatPesanan" :key="pesanan.id">
+                  <td>{{ index + 1 }}</td>
+                  <td>{{ pesanan.layanan }}</td>
+                  <td>{{ pesanan.masalah }}</td>
+                  <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>
+                 
+                  <td>
+                    <span v-if="pesanan.status === 0" class="text-info">Menunggu Konfirmasi</span>
+                    <span v-else-if="pesanan.status === 1" class="text-warning">Proses Pesanan</span>
+                    <span v-else-if="pesanan.status === 2" class="text-warning">Proses Pengerjaan</span>
+                    <span v-else-if="pesanan.status === 3" class="text-success">Pesanan Selesai</span>
+                    <span v-else-if="pesanan.status === 4" class="text-danger">Pesanan Dibatalkan</span>
+                  </td>
+                  <td :class="{ 'text-danger': !pesanan.deskripsi }">{{ pesanan.deskripsi || 'Data kosong' }}</td>
+                  <td>{{ pesanan.alamat }}</td>
+                </tr>
+              </tbody>
+            </table>
   </div>
 </template>
 
@@ -40,6 +75,7 @@ export default {
     return {
       jumlahDataRiwayat: 0,
       jumlahDataListLayanan: 0,
+      riwayatPesanan:0,
       userNama: '',
 
     };
@@ -48,6 +84,7 @@ export default {
     feather.replace();
     this.getRiwayat();
     this.getLayanan();
+    this.getData();
   },
 
   methods: {
@@ -68,7 +105,16 @@ export default {
       } catch (error) {
         console.error(error);
       }
-    }
+    },
+    async getData() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/riwayat-pesanan');
+        this.riwayatPesanan = response.data;
+        // console.log('cek', this.riwayatPesanan);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   }
 };
 </script>

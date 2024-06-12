@@ -26,6 +26,50 @@
         </div>
       </div>
     </div>
+    <hr>  
+  <table class="table table-striped table-bordered nowrap table-hover" id="example">
+              <thead class="text-center">
+                <tr>
+                  <th>No</th>
+                  <th>Nama Pelanggan</th>
+                  <th>Nama Elektronik</th>
+                  <th>Masalah</th>
+                  <th>Alamat</th>
+                  <th>No Telepon</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <template v-if="DataPesananTeknisi.length > 0">
+                  <tr v-for="(data, index) in DataPesananTeknisi" :key="data.id">
+                    <td>{{ index + 1 }}</td>
+                    <td :class="{ 'text-danger': !data.user_pelanggan.username }">{{ data.user_pelanggan.username ||
+        'Data kosong' }}</td>
+                   
+                    <td :class="{ 'text-danger': !data.layanan }">{{ data.layanan || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.masalah }">{{ data.masalah || 'Data kosong' }}</td>
+                    <td>{{ data.alamat }}</td>
+                    <td :class="{ 'text-danger': !data.user_pelanggan.no_telp }">
+                      {{ data.user_pelanggan.no_telp || 'Data kosong' }}
+                    </td>
+                    <td>
+                      <span v-if="data.status === 1">Menunggu Konfirmasi</span>
+                      <span v-else-if="data.status === 2" class="text-warning">Proses Pengerjaan</span>
+                      <span v-else-if="data.status === 3" class="text-warning">Perbaikan Selesai</span>
+                      <span v-else class="text-danger">Data kosong</span>
+                    </td>
+                   
+                  
+                    
+                  </tr>
+                </template>
+                <template v-else>
+                  <tr>
+                    <td colspan="12" class="text-danger">Belum Ada Pesanan</td>
+                  </tr>
+                </template>
+              </tbody>
+            </table>
   </div>
 </template>
 <script>
@@ -38,6 +82,7 @@ export default {
     return {
       jumlahDataPesanan: 0,
       jumlahDataRiwayat: 0,
+      DataPesananTeknisi: [],
       userNama: '',
     };
   },
@@ -45,6 +90,7 @@ export default {
     feather.replace();
     this.getData();
     this.getRiwayat();
+    this.getDatatek();
   },
   methods: {
     async getData() {
@@ -54,6 +100,15 @@ export default {
         const response = await axios.get(`http://localhost:8000/api/data-layanan-teknisi/${userID}`);
         this.jumlahDataPesanan = response.data.length;
         console.log('cek', response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async getData() {
+      try {
+        const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
+        this.DataPesananAdmin = response.data;
+        // console.log('data admin',this.DataPesananAdmin);
       } catch (error) {
         console.error(error);
       }
@@ -68,7 +123,19 @@ export default {
         console.error(error);
       }
     },
+    async getDatatek() {
+      try {
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userID = userData.data.id;
+        const response = await axios.get(`http://localhost:8000/api/data-layanan-teknisi/${userID}`);
+        this.DataPesananTeknisi = response.data;
+        console.log('cek', response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    },
   }
+  
 };
 </script>
 
