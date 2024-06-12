@@ -33,14 +33,12 @@
                   <th>No</th>
                   <th>Nama Elektronik</th>
                   <th>Masalah</th>
-                  <th>Teknisi</th>
-                  <th>Tanggal</th>
-                  <th>Tanggal Selesai</th>
+                
+              
                   <th>Status</th>
-                  <th>Deskripsi</th>
+                
                   <th>alamat</th>
-                  <th>Total Biaya</th>
-                  <th>Action</th>
+                 
                 </tr>
               </thead>
               <tbody>
@@ -48,8 +46,7 @@
                   <td>{{ index + 1 }}</td>
                   <td>{{ pesanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
-                  <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>
-                 
+                
                   <td>
                     <span v-if="pesanan.status === 0" class="text-info">Menunggu Konfirmasi</span>
                     <span v-else-if="pesanan.status === 1" class="text-warning">Proses Pesanan</span>
@@ -57,7 +54,7 @@
                     <span v-else-if="pesanan.status === 3" class="text-success">Pesanan Selesai</span>
                     <span v-else-if="pesanan.status === 4" class="text-danger">Pesanan Dibatalkan</span>
                   </td>
-                  <td :class="{ 'text-danger': !pesanan.deskripsi }">{{ pesanan.deskripsi || 'Data kosong' }}</td>
+               
                   <td>{{ pesanan.alamat }}</td>
                 </tr>
               </tbody>
