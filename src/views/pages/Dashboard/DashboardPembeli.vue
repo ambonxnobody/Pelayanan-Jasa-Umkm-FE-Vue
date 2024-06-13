@@ -33,11 +33,10 @@
                   <th>No</th>
                   <th>Nama Elektronik</th>
                   <th>Masalah</th>
-                
-              
+                  <th>alamat</th>
                   <th>Status</th>
                 
-                  <th>alamat</th>
+                
                  
                 </tr>
               </thead>
@@ -46,7 +45,7 @@
                   <td>{{ index + 1 }}</td>
                   <td>{{ pesanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
-                
+                  <td>{{ pesanan.alamat }}</td>
                   <td>
                     <span v-if="pesanan.status === 0" class="text-info">Menunggu Konfirmasi</span>
                     <span v-else-if="pesanan.status === 1" class="text-warning">Proses Pesanan</span>
@@ -55,7 +54,7 @@
                     <span v-else-if="pesanan.status === 4" class="text-danger">Pesanan Dibatalkan</span>
                   </td>
                
-                  <td>{{ pesanan.alamat }}</td>
+               
                 </tr>
               </tbody>
             </table>
@@ -81,7 +80,7 @@ export default {
     feather.replace();
     this.getRiwayat();
     this.getLayanan();
-    this.getData();
+    this.getDatanotif();
   },
 
   methods: {
@@ -103,9 +102,9 @@ export default {
         console.error(error);
       }
     },
-    async getData() {
+    async getDatanotif() {
       try {
-        const response = await axios.get('http://localhost:8000/api/riwayat-pesanan');
+        const response = await axios.get('http://localhost:8000/api/riwayat-notif');
         this.riwayatPesanan = response.data;
         // console.log('cek', this.riwayatPesanan);
       } catch (error) {
