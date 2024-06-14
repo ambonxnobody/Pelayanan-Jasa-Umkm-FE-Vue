@@ -46,7 +46,7 @@
                     <td :class="{ 'text-danger': !data.user_pelanggan.username }">{{ data.user_pelanggan.username ||
         'Data kosong' }}</td>
                    
-                    <td :class="{ 'text-danger': !data.layanan }">{{ data.layanan || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.data_layanan.layanan }">{{ data.data_layanan.layanan || 'Data kosong' }}</td>
                     <td :class="{ 'text-danger': !data.masalah }">{{ data.masalah || 'Data kosong' }}</td>
                     <td>{{ data.alamat }}</td>
                     <td :class="{ 'text-danger': !data.user_pelanggan.no_telp }">
@@ -89,6 +89,7 @@ export default {
   mounted() {
     feather.replace();
     this.getData();
+    this.getPesanan();
     this.getRiwayat();
     this.getDatatek();
   },
@@ -97,16 +98,16 @@ export default {
       try {
         const userData = JSON.parse(localStorage.getItem('user'));
         const userID = userData.data.id;
-        const response = await axios.get(`http://localhost:8000/api/data-layanan-teknisi/${userID}`);
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/data-layanan-teknisi/${userID}`);
         this.jumlahDataPesanan = response.data.length;
         console.log('cek', response.data);
       } catch (error) {
         console.error(error);
       }
     },
-    async getData() {
+    async getPesanan() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/get-pesanan-admin');
         this.DataPesananAdmin = response.data;
         // console.log('data admin',this.DataPesananAdmin);
       } catch (error) {
@@ -117,7 +118,7 @@ export default {
       try {
         const userData = JSON.parse(localStorage.getItem('user'));
         const userID = userData.data.id;
-        const response = await axios.get(`http://localhost:8000/api/riwayat-pesanan-Teknisi/${userID}`);
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/riwayat-pesanan-Teknisi/${userID}`);
         this.jumlahDataRiwayat = response.data.length;
       } catch (error) {
         console.error(error);
@@ -127,7 +128,7 @@ export default {
       try {
         const userData = JSON.parse(localStorage.getItem('user'));
         const userID = userData.data.id;
-        const response = await axios.get(`http://localhost:8000/api/data-layanan-teknisi/${userID}`);
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/data-layanan-teknisi/${userID}`);
         this.DataPesananTeknisi = response.data;
         console.log('cek', response.data);
       } catch (error) {

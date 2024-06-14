@@ -26,7 +26,7 @@
                 <tr v-for="(pesanan, index) in riwayatPesanan" :key="pesanan.id">
                   <td>{{ index + 1 }}</td>
                   <td>{{ pesanan.user_pelanggan.username }}</td>
-                  <td>{{ pesanan.layanan }}</td>
+                  <td>{{ pesanan.data_layanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
                   <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>
                   <template v-if="pesanan.tgl_pesan_awal">
@@ -84,7 +84,7 @@ export default {
   methods: {
     async getData() {
       try {
-        const response = await axios.get('http://localhost:8000/api/riwayat-pesanan-Admin');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/riwayat-pesanan-Admin');
         this.riwayatPesanan = response.data;
         // console.log('cek', this.riwayatPesanan);
       } catch (error) {

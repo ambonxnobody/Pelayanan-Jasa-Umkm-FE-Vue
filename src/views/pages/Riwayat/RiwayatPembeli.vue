@@ -25,7 +25,7 @@
               <tbody>
                 <tr v-for="(pesanan, index) in riwayatPesanan" :key="pesanan.id">
                   <td>{{ index + 1 }}</td>
-                  <td>{{ pesanan.layanan }}</td>
+                  <td>{{ pesanan.data_layanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
                   <td :class="{ 'text-danger': !pesanan.username }">{{ pesanan.username || 'Data kosong' }}</td>
                   <template v-if="pesanan.tgl_pesan_awal">
@@ -90,9 +90,11 @@ export default {
   methods: {
     async getData() {
       try {
-        const response = await axios.get('http://localhost:8000/api/riwayat-pesanan');
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userID = userData.data.id;
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/riwayat-pesanan/${userID}`);
         this.riwayatPesanan = response.data;
-        // console.log('cek', this.riwayatPesanan);
+        console.log('cek', this.riwayatPesanan);
       } catch (error) {
         console.error(error);
       }
@@ -110,7 +112,7 @@ export default {
         cancelButtonText: 'Tidak'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.patch(`http://localhost:8000/api/cancel-pesanan/${id}`, { status: 4 })
+          axios.patch(`https://umkmbackend.pjjaka.com/api/cancel-pesanan/${id}`, { status: 4 })
             .then(response => {
               console.log(response.data);
               Swal.fire(

@@ -28,7 +28,7 @@
                   <td>{{ index + 1 }}</td>
                   <td>{{ pesanan.user_pelanggan.username }}</td>
                   <td>{{ pesanan.user_pelanggan.no_telp }}</td>
-                  <td>{{ pesanan.layanan }}</td>
+                  <td>{{ pesanan.data_layanan.layanan }}</td>
                   <td>{{ pesanan.masalah }}</td>
                   <td :class="{ 'text-danger': !pesanan.user_teknisi.username }">{{ pesanan.user_teknisi.username ||
                   'Data kosong' }}</td>
@@ -89,7 +89,7 @@ export default {
       try {
         const userData = JSON.parse(localStorage.getItem('user'));
         const userID = userData.data.id;
-        const response = await axios.get(`http://localhost:8000/api/riwayat-pesanan-Teknisi/${userID}`);
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/riwayat-pesanan-Teknisi/${userID}`);
         this.riwayatPesanan = response.data;
       } catch (error) {
         console.error(error);

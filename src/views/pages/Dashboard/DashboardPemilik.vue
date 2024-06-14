@@ -47,39 +47,39 @@
           </div>
         </div>
       </div>
-  <hr>  
-  <table class="table table-striped table-bordered nowrap table-hover" id="example">
-              <thead class="text-center">
-                <tr>
-                  <th>No</th>
-                  <th>Nama Pelanggan</th>
-                  <th>Nama Elektronik</th>
-                  <th>Alamat</th>
-                  <th>No Telepon</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                <template v-if="DataPesananAdmin.length > 0">
-                  <tr v-for="(data, index) in DataPesananAdmin" :key="data.id">
-                    <td>{{ index + 1 }}</td>
-                    <td>{{ data.user_pelanggan.username }}</td>
-                    <td>{{ data.layanan }}</td>
-                    <td>{{ data.masalah }}</td>
-                    <td>{{ data.user_pelanggan.no_telp }}</td>
-                    <td>
-                      <span v-if="data.status === 0">Menunggu Konfirmasi</span>
-                      <span v-else>{{ data.status }}</span>
-                    </td>
-                  </tr>
-                </template>
-                <template v-else>
-                  <tr>
-                    <td colspan="12" class="text-danger">Belum Ada Pesanan</td>
-                  </tr>
-                </template>
-              </tbody>
-            </table>
+      <hr>
+      <table class="table table-striped table-bordered nowrap table-hover" id="example">
+        <thead class="text-center">
+          <tr>
+            <th>No</th>
+            <th>Nama Pelanggan</th>
+            <th>Nama Elektronik</th>
+            <th>Alamat</th>
+            <th>No Telepon</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template v-if="DataPesananAdmin.length > 0">
+            <tr v-for="(data, index) in DataPesananAdmin" :key="data.id">
+              <td>{{ index + 1 }}</td>
+              <td>{{ data.user_pelanggan.username }}</td>
+              <td>{{ data.data_layanan.layanan }}</td>
+              <td>{{ data.masalah }}</td>
+              <td>{{ data.user_pelanggan.no_telp }}</td>
+              <td>
+                <span v-if="data.status === 0">Menunggu Konfirmasi</span>
+                <span v-else>{{ data.status }}</span>
+              </td>
+            </tr>
+          </template>
+          <template v-else>
+            <tr>
+              <td colspan="12" class="text-danger">Belum Ada Pesanan</td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -101,24 +101,23 @@ export default {
   },
   mounted() {
     this.getData();
+    this.getPesan();
     this.getUser();
     this.getLayanan();
     this.getRiwayat();
   },
   methods: {
-    async getData() {
+    async getPesan() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/get-pesanan-admin`);
         this.jumlahDataPesanan = response.data.length;
-        const userData = JSON.parse(localStorage.getItem('user'));
-        this.userNama = userData.data.username;
       } catch (error) {
         console.error(error);
       }
     },
     async getUser() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get-user');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/get-user');
         this.jumlahDataUser = response.data.length;
       } catch (error) {
         console.error(error);
@@ -126,7 +125,7 @@ export default {
     },
     async getLayanan() {
       try {
-        const response = await axios.get('http://localhost:8000/api/data-layanan');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/data-layanan');
         this.jumlahDataLayanan = response.data.length;
       } catch (error) {
         console.error(error);
@@ -134,16 +133,16 @@ export default {
     },
     async getRiwayat() {
       try {
-        const response = await axios.get('http://localhost:8000/api/riwayat-pesanan-Admin');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/riwayat-pesanan-Admin');
         this.jumlahDataRiwayat = response.data.length;
       } catch (error) {
         console.error(error);
       }
     },
-  
-  async getData() {
+
+    async getData() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/get-pesanan-admin');
         this.DataPesananAdmin = response.data;
         // console.log('data admin',this.DataPesananAdmin);
       } catch (error) {

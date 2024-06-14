@@ -63,7 +63,7 @@
                   <tr v-for="(data, index) in DataPesananAdmin" :key="data.id">
                     <td>{{ index + 1 }}</td>
                     <td>{{ data.user_pelanggan.username }}</td>
-                    <td>{{ data.layanan }}</td>
+                    <td>{{ data.data_layanan.layanan }}</td>
                     <td>{{ data.masalah }}</td>
                     <td>{{ data.user_pelanggan.no_telp }}</td>
                     <td>
@@ -132,7 +132,7 @@ export default {
   methods: {
     async getData() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get-pesanan-admin');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/get-pesanan-admin');
         this.DataPesananAdmin = response.data;
         // console.log('data admin',this.DataPesananAdmin);
       } catch (error) {
@@ -142,7 +142,7 @@ export default {
 
     async getUserTek() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get-usertek');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/get-usertek');
         this.namaTeknisi = response.data;
       } catch (error) {
         console.error(error);
@@ -172,7 +172,7 @@ export default {
 
     async edit() {
       try {
-        const response = await axios.put(`http://localhost:8000/api/update-pesanan-admin/${this.id}`, {
+        const response = await axios.put(`https://umkmbackend.pjjaka.com/api/update-pesanan-admin/${this.id}`, {
           id: this.id,
           id_admin: this.idAdmin,
           id_teknisi: this.selectnamaTeknisi,

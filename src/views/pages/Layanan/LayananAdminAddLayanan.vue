@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid p-0">
     <h1 class="h3 mb-3 text-center">
-      <strong >Layanan Admin</strong>
+      <strong>Layanan Admin</strong>
     </h1>
     <div>
       <button class="btn btn-primary" @click="showModal = true; console.log('showModal:', showModal)">Tambah</button>
@@ -13,7 +13,7 @@
         <template v-slot:body>
           <div class="card">
             <div class="card-body">
-              <form @submit.prevent="tambah">
+              <form @submit.prevent="tambah" enctype="multipart/form-data">
                 <div class="mb-3">
                   <label class="form-label">Nama Layanan</label>
                   <input v-model="namaLayanan" class="form-control" name="nama_layanan" id="nama_layanan" cols="30"
@@ -24,7 +24,13 @@
                   <textarea v-model="Deskripsi" class="form-control" name="deskripsi" id="deskripsi" cols="30"
                     rows="10"></textarea>
                 </div>
-
+                <div class="mb-3">
+                  <label class="form-label">Gambar</label>
+                  <div v-if="gambar">
+                    <img :src="getImageUrl(gambar)" alt="Gambar" width="100" height="100" class="mb-3">
+                  </div>
+                  <input type="file" @change="onFileChange" class="form-control-file" name="gambar" id="gambar">
+                </div>
                 <div class="mb-3">
                   <label class="form-label">Nama Teknisi</label>
                   <select v-model="selectnamaTeknisi" class="form-select">
@@ -64,7 +70,9 @@
                   <td>{{ index + 1 }}</td>
                   <td>{{ data.layanan }}</td>
                   <td>{{ data.deskripsi }}</td>
-                  <td>{{ data.gambar }}</td>
+                  <td>
+                    <img :src="getImageUrl(data.gambar)" alt="Gambar" width="100" height="100">
+                  </td>
                   <td>{{ data.username }}</td>
                   <td>
                     <button type="button" class="btn btn-warning" @click="editLayanan(index)">
@@ -108,6 +116,8 @@ export default {
       selectnamaTeknisi: null,
       namaLayanan: '',
       Deskripsi: '',
+      gambar: '',
+      currentGambar: null,
       namaTeknisi: [],
 
     };
@@ -117,9 +127,18 @@ export default {
   },
 
   methods: {
+
+    onFileChange(e) {
+      const file = e.target.files[0];
+      this.gambar = file;
+    },
+
+    getImageUrl(filePath) {
+      return `https://umkmbackend.pjjaka.com/${filePath}`;
+    },
     async getData() {
       try {
-        const response = await axios.get('http://localhost:8000/api/data-layanan');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/data-layanan');
         this.DataLayanan = response.data;
         console.log('cek', response.data);
       } catch (error) {
@@ -129,7 +148,7 @@ export default {
 
     async getUserTek() {
       try {
-        const response = await axios.get('http://localhost:8000/api/get-usertek');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/get-usertek');
         this.namaTeknisi = response.data;
 
       } catch (error) {
@@ -151,6 +170,7 @@ export default {
       this.namaLayanan = layanan.layanan;
       this.Deskripsi = layanan.deskripsi;
       this.teknisi = layanan.teknisi;
+      this.gambar = layanan.gambar;
       this.selectnamaTeknisi = layanan.teknisi;
       this.showModal = true;
     },
@@ -170,7 +190,7 @@ export default {
         cancelButtonText: 'Batal'
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.delete(`http://localhost:8000/api/delete-layanan/${layananId}`)
+          axios.delete(`https://umkmbackend.pjjaka.com/api/delete-layanan/${layananId}`)
             .then(response => {
               console.log(response.data);
               const deletedDataMessage = "Data pengguna berhasil dihapus.";
@@ -186,12 +206,17 @@ export default {
     },
 
     tambah() {
-      const endpoint = this.id ? `http://localhost:8000/api/update-layanan/${this.id}` : 'http://localhost:8000/api/tambah-layanan';
-      const method = this.id ? 'put' : 'post';
+      const endpoint = this.id ? `https://umkmbackend.pjjaka.com/api/update-layanan/${this.id}` : 'https://umkmbackend.pjjaka.com/api/tambah-layanan';
+      const method = this.id ? 'post' : 'post';
       axios[method](endpoint, {
         nama_layanan: this.namaLayanan,
         deskripsi: this.Deskripsi,
+        gambar: this.gambar,
         teknisi: this.selectnamaTeknisi,
+      }, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       }).then(response => {
         console.log(response.data);
         const savedDataMessage = `Data berhasil ${this.id ? 'diubah' : 'disimpan'}`;

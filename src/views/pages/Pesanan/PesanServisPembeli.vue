@@ -11,7 +11,7 @@
                 <select ref="select2" v-model="selectedNamaElektronik" class="form-control">
                   <option :value="null" disabled>Pilih Elektronik</option>
                   <option v-for="option in namaElektronikOptions" :key="option.id" :value="option.id">
-                    {{ option.deskripsi }}
+                    {{ option.layanan }}
                   </option>
                 </select>
               </div>
@@ -79,7 +79,7 @@ export default {
 
     async getNamaElektronikOptions() {
       try {
-        const response = await axios.get('http://localhost:8000/api/nama-elektronik');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/nama-elektronik');
         this.namaElektronikOptions = response.data;
 
       } catch (error) {
@@ -90,8 +90,8 @@ export default {
     async pesan() {
       try {
         const selectedOption = this.namaElektronikOptions.find(option => option.id === this.selectedNamaElektronik);
-        const response = await axios.post('http://localhost:8000/api/submit-pesanan', {
-          layanan: selectedOption.layanan,
+        const response = await axios.post('https://umkmbackend.pjjaka.com/api/submit-pesanan', {
+          layanan: selectedOption.id,
           masalah: this.detailMasalah,
           tgl_pesan: this.tglServis,
           id_pelanggan: this.id_pelanggan,

@@ -180,6 +180,7 @@ const router = createRouter({
 });
 
 router.beforeEach((to, from, next) => {
+  document.title = to.meta.title || 'Default Title';
   if (to.matched.some(record => record.meta.requiresAuth)) {
     const token = localStorage.getItem('token');
     if (!token) {

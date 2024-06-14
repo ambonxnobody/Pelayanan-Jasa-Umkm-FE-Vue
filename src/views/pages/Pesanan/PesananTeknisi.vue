@@ -79,7 +79,7 @@
                     <td :class="{ 'text-danger': !data.user_pelanggan.no_telp }">
                       {{ data.user_pelanggan.no_telp || 'Data kosong' }}
                     </td>
-                    <td :class="{ 'text-danger': !data.layanan }">{{ data.layanan || 'Data kosong' }}</td>
+                    <td :class="{ 'text-danger': !data.data_layanan.layanan }">{{ data.data_layanan.layanan || 'Data kosong' }}</td>
                     <td :class="{ 'text-danger': !data.masalah }">{{ data.masalah || 'Data kosong' }}</td>
                     <template v-if="data.tgl_pesan_awal">
                       <td>{{ formatDate(data.tgl_pesan_awal) }}</td>
@@ -169,7 +169,7 @@ export default {
       try {
         const userData = JSON.parse(localStorage.getItem('user'));
         const userID = userData.data.id;
-        const response = await axios.get(`http://localhost:8000/api/data-layanan-teknisi/${userID}`);
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/data-layanan-teknisi/${userID}`);
         this.DataPesananTeknisi = response.data;
         console.log('cek', response.data);
       } catch (error) {
@@ -201,7 +201,7 @@ export default {
 
     async edit() {
       try {
-        const response = await axios.put(`http://localhost:8000/api/update-pesanan-teknisi/${this.id}`, {
+        const response = await axios.put(`https://umkmbackend.pjjaka.com/api/update-pesanan-teknisi/${this.id}`, {
           id: this.id,
           tglServis: this.tglServis,
           deskripsi: this.deskripsi,

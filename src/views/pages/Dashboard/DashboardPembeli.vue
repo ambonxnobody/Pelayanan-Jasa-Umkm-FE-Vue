@@ -28,36 +28,31 @@
       </div>
     </div>
     <table class="table table-striped table-bordered nowrap table-hover" id="example">
-              <thead class="text-center">
-                <tr>
-                  <th>No</th>
-                  <th>Nama Elektronik</th>
-                  <th>Masalah</th>
-                  <th>alamat</th>
-                  <th>Status</th>
-                
-                
-                 
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(pesanan, index) in riwayatPesanan" :key="pesanan.id">
-                  <td>{{ index + 1 }}</td>
-                  <td>{{ pesanan.layanan }}</td>
-                  <td>{{ pesanan.masalah }}</td>
-                  <td>{{ pesanan.alamat }}</td>
-                  <td>
-                    <span v-if="pesanan.status === 0" class="text-info">Menunggu Konfirmasi</span>
-                    <span v-else-if="pesanan.status === 1" class="text-warning">Proses Pesanan</span>
-                    <span v-else-if="pesanan.status === 2" class="text-warning">Proses Pengerjaan</span>
-                    <span v-else-if="pesanan.status === 3" class="text-success">Pesanan Selesai</span>
-                    <span v-else-if="pesanan.status === 4" class="text-danger">Pesanan Dibatalkan</span>
-                  </td>
-               
-               
-                </tr>
-              </tbody>
-            </table>
+      <thead class="text-center">
+        <tr>
+          <th>No</th>
+          <th>Nama Elektronik</th>
+          <th>Masalah</th>
+          <th>alamat</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(pesanan, index) in riwayatPesanan" :key="pesanan.id">
+          <td>{{ index + 1 }}</td>
+          <td>{{ pesanan.data_layanan.layanan }}</td>
+          <td>{{ pesanan.masalah }}</td>
+          <td>{{ pesanan.alamat }}</td>
+          <td>
+            <span v-if="pesanan.status === 0" class="text-info">Menunggu Konfirmasi</span>
+            <span v-else-if="pesanan.status === 1" class="text-warning">Proses Pesanan</span>
+            <span v-else-if="pesanan.status === 2" class="text-warning">Proses Pengerjaan</span>
+            <span v-else-if="pesanan.status === 3" class="text-success">Pesanan Selesai</span>
+            <span v-else-if="pesanan.status === 4" class="text-danger">Pesanan Dibatalkan</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
@@ -71,7 +66,7 @@ export default {
     return {
       jumlahDataRiwayat: 0,
       jumlahDataListLayanan: 0,
-      riwayatPesanan:0,
+      riwayatPesanan: 0,
       userNama: '',
 
     };
@@ -86,17 +81,17 @@ export default {
   methods: {
     async getRiwayat() {
       try {
-        const response = await axios.get('http://localhost:8000/api/riwayat-pesanan');
-        this.jumlahDataRiwayat = response.data.length;
         const userData = JSON.parse(localStorage.getItem('user'));
-        this.userNama = userData.data.username;
+        const userID = userData.data.id;
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/riwayat-pesanan/${userID}`);
+        this.jumlahDataRiwayat = response.data.length;
       } catch (error) {
         console.error(error);
       }
     },
     async getLayanan() {
       try {
-        const response = await axios.get('http://localhost:8000/api/nama-elektronik');
+        const response = await axios.get('https://umkmbackend.pjjaka.com/api/nama-elektronik');
         this.jumlahDataListLayanan = response.data.length;
       } catch (error) {
         console.error(error);
@@ -104,9 +99,10 @@ export default {
     },
     async getDatanotif() {
       try {
-        const response = await axios.get('http://localhost:8000/api/riwayat-notif');
+        const userData = JSON.parse(localStorage.getItem('user'));
+        const userID = userData.data.id;
+        const response = await axios.get(`https://umkmbackend.pjjaka.com/api/riwayat-notif/${userID}`);
         this.riwayatPesanan = response.data;
-        // console.log('cek', this.riwayatPesanan);
       } catch (error) {
         console.error(error);
       }

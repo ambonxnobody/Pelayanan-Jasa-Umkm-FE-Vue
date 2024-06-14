@@ -7,14 +7,12 @@
             <div class="text-center mt-4">
               <h1 class="h2">Halaman Pendaftaran</h1>
             </div>
-
             <div class="card">
               <div class="card-body">
                 <div class="m-sm-4">
                   <form @submit.prevent="registrasi">
                     <div class="mb-3">
-                      <input type="hidden" id="username" v-model="nama" class="form-control form-control-lg"
-                        required />
+                      <input type="hidden" id="username" v-model="nama" class="form-control form-control-lg" required />
                     </div>
                     <div class="mb-3">
                       <label for="username" class="form-label">Username:</label>
@@ -29,12 +27,10 @@
                     </div>
                     <div class="mb-3">
                       <label for="username" class="form-label">No Telepon</label>
-                      <input type="text" id="username" v-model="notelp" class="form-control form-control-lg"
-                        required />
+                      <input type="text" id="username" v-model="notelp" class="form-control form-control-lg" required />
                     </div>
                     <div class="mb-3">
-                      <input type="hidden" id="username" v-model="role" class="form-control form-control-lg"
-                        required />
+                      <input type="hidden" id="username" v-model="role" class="form-control form-control-lg" required />
                     </div>
                     <div class="text-center mt-3">
                       <button type="submit" class="btn btn-lg btn-primary">
@@ -59,26 +55,24 @@ export default {
   name: "registrasi",
   data() {
     return {
-      nama:"Pelanggan",
+      nama: "Pelanggan",
       username: "",
       password: "",
       notelp: "",
       role: "3",
     };
   },
-methods:{
+  methods: {
 
-  async registrasi() {
+    async registrasi() {
       try {
-      
-        const response = await axios.post('http://localhost:8000/api/registrasi', {
-         
+        const response = await axios.post('https://umkmbackend.pjjaka.com/api/registrasi', {
           nama: this.nama,
           username: this.username,
           password: this.password,
           notelp: this.notelp,
           role: this.role,
-        
+
         });
 
         if (response && response.data && response.data.error) {
@@ -99,7 +93,7 @@ methods:{
         console.error(error);
       }
     },
-}
+  }
 
 };
 

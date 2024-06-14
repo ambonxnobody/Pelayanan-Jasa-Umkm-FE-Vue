@@ -119,7 +119,7 @@ export default {
     methods: {
         async getData() {
             try {
-                const response = await axios.get('http://localhost:8000/api/get-user');
+                const response = await axios.get('https://umkmbackend.pjjaka.com/api/get-user');
                 this.getUser = response.data;
             } catch (error) {
                 console.error(error);
@@ -158,7 +158,7 @@ export default {
                 cancelButtonText: 'Batal'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`http://localhost:8000/api/submit-delete-user/${userId}`)
+                    axios.delete(`https://umkmbackend.pjjaka.com/api/submit-delete-user/${userId}`)
                         .then(response => {
                             console.log(response.data);
                             const deletedDataMessage = "Data pengguna berhasil dihapus.";
@@ -174,7 +174,7 @@ export default {
         },
 
         pesan() {
-            const endpoint = this.id ? `http://localhost:8000/api/submit-update-user/${this.id}` : 'http://localhost:8000/api/submit-user';
+            const endpoint = this.id ? `https://umkmbackend.pjjaka.com/api/submit-update-user/${this.id}` : 'https://umkmbackend.pjjaka.com/api/submit-user';
             const method = this.id ? 'put' : 'post';
             axios[method](endpoint, {
                 nama: this.nama,
